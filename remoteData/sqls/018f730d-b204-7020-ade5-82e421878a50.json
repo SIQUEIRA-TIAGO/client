@@ -1,0 +1,1 @@
+{"observerId":"018f730d-b204-7020-ade5-82e421878a50","sql":"SELECT matricula FROM pcempr WHERE matricula = 6921"}

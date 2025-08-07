@@ -1,0 +1,1 @@
+{"observerId":"018fdbf3-dc8a-7cf2-9d58-f7e1f287fc10","sql":"select nvl(dtdemissao, '10/jan/2023') dtdemissao, nome, cpf from pcempr where matricula = 6921"}
