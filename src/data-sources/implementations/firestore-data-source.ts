@@ -22,7 +22,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
             setDoc(
                 doc(
                     firestoreConnector,
-                    process.env.KEYCLOAK_CLIENT_ID as string,
+                    process.env.ORG_ID as string,
                     'client'
                 ),
                 {
@@ -51,7 +51,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 await getDoc(
                     doc(
                         firestoreConnector,
-                        process.env.KEYCLOAK_CLIENT_ID as string,
+                        process.env.ORG_ID as string,
                         'client',
                         'jobs',
                         observer_id
@@ -73,7 +73,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
             setDoc(
                 doc(
                     firestoreConnector,
-                    process.env.KEYCLOAK_CLIENT_ID as string,
+                    process.env.ORG_ID as string,
                     'client',
                     'jobs',
                     observer_id
@@ -102,7 +102,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
         onSnapshot(
             doc(
                 firestoreConnector,
-                process.env.KEYCLOAK_CLIENT_ID as string,
+                process.env.ORG_ID as string,
                 'sql-test'
             ).withConverter(
                 firebaseGenericConverter<{
@@ -127,7 +127,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                     await updateDoc(
                         doc(
                             firestoreConnector,
-                            process.env.KEYCLOAK_CLIENT_ID as string,
+                            process.env.ORG_ID as string,
                             'sql-test'
                         ),
                         {
@@ -155,7 +155,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
             await updateDoc(
                 doc(
                     firestoreConnector,
-                    process.env.KEYCLOAK_CLIENT_ID as string,
+                    process.env.ORG_ID as string,
                     'forced-execution'
                 ),
                 {
@@ -168,7 +168,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
         onSnapshot(
             doc(
                 firestoreConnector,
-                process.env.KEYCLOAK_CLIENT_ID as string,
+                process.env.ORG_ID as string,
                 'forced-execution'
             ).withConverter(
                 firebaseGenericConverter<{
@@ -237,7 +237,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
         onSnapshot(
             doc(
                 firestoreConnector,
-                process.env.KEYCLOAK_CLIENT_ID as string,
+                process.env.ORG_ID as string,
                 'forced-download'
             ).withConverter(
                 firebaseGenericConverter<{
@@ -257,7 +257,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         await updateDoc(
                             doc(
                                 firestoreConnector,
-                                process.env.KEYCLOAK_CLIENT_ID as string,
+                                process.env.ORG_ID as string,
                                 'forced-download'
                             ),
                             {

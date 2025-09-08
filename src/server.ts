@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 import { mainCron } from './main';
-import { keycloakConnector } from './data-sources/connectors/auth/keycloak/keycloak-connector';
+import { globals } from '@/common/states/globals';
 import { IErrors } from './common/interfaces/errors';
 import firebaseConnector from './data-sources/connectors/auth/firebase/firebase-connector';
 import { firestoreDataSourceImpl } from './data-sources/implementations/firestore-data-source';
@@ -21,7 +21,12 @@ dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 
 (async () => {
     try {  
-        await keycloakConnector();
+        if (!process.env.ACCESS_TOKEN)
+            throw {
+                origin: '.env',
+                message: 'Error while connecting to searching for .env variables',
+            } as IErrors;
+        globals.access_token = process.env.ACCESS_TOKEN;
         await firebaseConnector();
         firestoreDataSourceImpl.listenForSqlTest();
         firestoreDataSourceImpl.listenForForcedExecution();
@@ -30,6 +35,6 @@ dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
     } catch (error: IErrors | any) {
         console.error(error);
         if (!('origin' in error)) return;
-        if (error.origin == 'keycloak') process.exit(1);
+        if (error.origin == '.env') process.exit(1);
     }
 })();

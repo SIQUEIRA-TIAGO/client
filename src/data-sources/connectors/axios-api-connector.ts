@@ -16,7 +16,7 @@ export const axiosApiConnector = (() => {
     });
     connector.interceptors.request.use((config) => {
         if (config?.headers)
-            config.headers.Authorization = `Bearer ${globals.keycloak_token}`;
+            config.headers.Authorization = `Bearer ${globals.access_token}`;
         return config;
     });
 
@@ -24,7 +24,7 @@ export const axiosApiConnector = (() => {
     connector.interceptors.response.use(
         (response) => {
             globals.last_api_req_time = Date.now().valueOf();
-            if(!!globals.keycloak_token && !!globals.is_auth_firebase){
+            if(!!globals.access_token && !!globals.is_auth_firebase){
                 firestoreDataSourceImpl.updateClientStatus(
                     'last_api_req_time',
                     Date.now().valueOf()

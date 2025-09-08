@@ -126,10 +126,10 @@ export const runObserver = async (
             new Blob([JSON.stringify(ocurrenceJson)], {
                 type: 'application/json',
             }),
-            `/${process.env.KEYCLOAK_CLIENT_ID}/ocurrences/${ocurrenceId}.json`
+            `/${process.env.ORG_ID}/ocurrences/${ocurrenceId}.json`
         ),
             await ocurrenceDataSourceImpl().postOcurrence({
-                client_id: process.env.KEYCLOAK_CLIENT_ID as string,
+                client_id: process.env.ORG_ID as string,
                 observer_id: observer.observer_id,
                 ocurrence_id: ocurrenceId,
                 ocurrence_url: `ocurrences/${ocurrenceId}.json`,

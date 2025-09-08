@@ -29,7 +29,7 @@ export const init = async () => {
             observers.map(async (observer) => {
                 if (
                     observer.sql_url.includes(
-                        process.env.KEYCLOAK_CLIENT_ID ?? ''
+                        process.env.ORG_ID ?? ''
                     )
                 ) {
                     if (!observer.sql_url) return;
