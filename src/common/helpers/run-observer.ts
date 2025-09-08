@@ -135,6 +135,7 @@ export const runObserver = async (
                 ocurrence_url: `ocurrences/${ocurrenceId}.json`,
                 is_recovery: is_recovery,
                 ocurrenceJson,
+                org_id: process.env.ORG_ID as string,
             });
     }
 

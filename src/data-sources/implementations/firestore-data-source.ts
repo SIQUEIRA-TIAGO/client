@@ -210,11 +210,12 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                     let {
                         fieldRestrictionsTriggered,
                         rowRestrictionsTriggered,
+                        queryResult
                     } = await runObserver(observer, {
                         observerId: data?.observer_id,
                         sql: sql,
                     });
-
+                    console.log({fieldRestrictionsTriggered, rowRestrictionsTriggered, queryResult});
                     await updateStatus({
                         already_ran: true,
                         result_ok:

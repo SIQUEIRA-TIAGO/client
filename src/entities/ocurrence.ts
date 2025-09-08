@@ -6,5 +6,6 @@ export interface Ocurrence {
 	preview_message: string
 	ocurrence_url: string
 	is_recovery: boolean
+	org_id: string
 }
 

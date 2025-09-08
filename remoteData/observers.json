@@ -1,1 +1,1 @@
-[{"observer_id":"018fdbf3-dc8a-7cf2-9d58-f7e1f287fc10","sql_url":"ORG_DEV/sqls/018fdbf3-dc8a-7cf2-9d58-f7e1f287fc10.sql","row_restrictions":[{"type":"rows-eq","value":11}],"field_restrictions":[],"cron_expression":"*/30 * * * * *"}]
+[]

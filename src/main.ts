@@ -10,8 +10,8 @@ import { downloadObservers } from './common/helpers/download-observers';
 export const init = async () => {
     try {
         console.log('Cleaning up old data'.bgBlue.black);
-        await fileSystemDataSourceImpl.saveJson({what: '[]', where: '../remoteData/observers.json'});
-        
+        await fileSystemDataSourceImpl.saveJson({ what: '[]', where: '../remoteData/observers.json' });
+
         console.log('Initializing sync'.bgBlue.black);
 
         const observers = await observerDataSourceImpl({
@@ -27,12 +27,8 @@ export const init = async () => {
 
         await Promise.all(
             observers.map(async (observer) => {
-                if (
-                    observer.sql_url.includes(
-                        process.env.ORG_ID ?? ''
-                    )
-                ) {
-                    if (!observer.sql_url) return;
+                if (!observer.sql_url) return;
+                if (observer.sql_url.includes(process.env.ORG_ID || '')) {
 
                     let downloadedSql =
                         await remoteFileSystemDataSourceImpl.downloadFile(
@@ -64,7 +60,7 @@ export const init = async () => {
         // });
 
         console.log('Observers and sqls saved'.bgBlue.black);
-        
+
 
         const jobs = await jobFactory({
             sqlDataSource: sqlDataSourceImpl,
