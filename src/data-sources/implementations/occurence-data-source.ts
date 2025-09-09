@@ -6,7 +6,7 @@ export const ocurrenceDataSourceImpl: IOccurenceDataSource = () => ({
     postOcurrence: async (ocurrence) => {
         try {
             let result = await axiosApiConnector.post(
-                'occurrence',
+                'occurrence/create',
                 {
                     client_id: ocurrence.client_id,
                     observer_id: ocurrence.observer_id,
