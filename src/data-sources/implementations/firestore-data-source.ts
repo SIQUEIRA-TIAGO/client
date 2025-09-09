@@ -99,6 +99,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
         }
     },
     listenForSqlTest: async () => {
+        console.log('Listening for sql-test requests...'.bgBlue.black);
         onSnapshot(
             doc(
                 firestoreConnector,
@@ -119,6 +120,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
             async (snapshot): Promise<void> => {
                 try {
                     let data = snapshot.data();
+                    console.log({data})
                     if (!snapshot.exists()) return;
                     if (!data) return;
                     if (!!data?.result) return;
