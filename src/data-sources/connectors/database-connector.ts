@@ -3,13 +3,18 @@ import 'colorts/lib/string';
 import dotenv from 'dotenv';
 import path from 'path';
 import oracledb from 'oracledb';
+import { existsSync } from 'fs';
 
 //dotenv.config({ path: path.resolve(process.cwd(), '../../../../../.env') });
 
 dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
-dotenv.config({ path: path.join(__dirname, '../../../.env') });
-oracledb.initOracleClient({ libDir: path.join(__dirname, '../../resources/instantclient-basiclite-windows.x64-19.28.0.0.0dbru/instantclient_19_28') });
+const libDir = path.join(__dirname, '../../resources/instantclient_19_28');
+if (!existsSync(libDir)) {
+    console.error('Oracle libDir not found:', libDir);
+} else {
+    oracledb.initOracleClient({ libDir });
+}
 
 export const databaseConnection = new Sequelize(
     process.env.DB_DATABASE as string,
