@@ -8,7 +8,8 @@ import oracledb from 'oracledb';
 
 dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
-oracledb.initOracleClient();
+dotenv.config({ path: path.join(__dirname, '../../../.env') });
+oracledb.initOracleClient({ libDir: path.join(__dirname, '../../resources/instantclient-basiclite-windows.x64-19.28.0.0.0dbru/instantclient_19_28') });
 
 export const databaseConnection = new Sequelize(
     process.env.DB_DATABASE as string,
