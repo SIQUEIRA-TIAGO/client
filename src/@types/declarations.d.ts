@@ -12,6 +12,7 @@ declare namespace NodeJS {
         DB_DIALECT: string
         ACCESS_TOKEN: string;
         ORG_ID: string;
+        SERVICE_FOLDER: string;
     }
 }
 

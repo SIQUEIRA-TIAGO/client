@@ -5,15 +5,11 @@ import path from 'path';
 import oracledb from 'oracledb';
 import { existsSync } from 'fs';
 
-//dotenv.config({ path: path.resolve(process.cwd(), '../../../../../.env') });
-
 dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
-const libDir = path.join(__dirname, '../../resources/instantclient_19_28');
+const libDir = path.resolve(process.cwd(), "src/resources/instantclient_19_28");
 if (!existsSync(libDir)) {
-    console.error('Oracle libDir not found:', libDir);
-} else {
-    oracledb.initOracleClient({ libDir });
+    throw new Error('Oracle libDir not found:' + libDir)
 }
 
 export const databaseConnection = new Sequelize(

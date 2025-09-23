@@ -46,19 +46,6 @@ export const init = async () => {
             })
         );
 
-        // let sqls = await Promise.all(
-        //     sqlsURLs.map(async (sqlUrl) => {
-        //         return await remoteFileSystemDataSourceImpl({
-        //             fileSystemDataSource: fileSystemDataSourceImpl,
-        //         }).getRemoteSql({ sqlUrl });
-        //     })
-        // );
-
-        // let sync = await checkObserverSync({
-        //     observers: observers,
-        //     sqls,
-        // });
-
         console.log('Observers and sqls saved'.bgBlue.black);
 
 

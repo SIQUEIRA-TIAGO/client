@@ -5,19 +5,13 @@ import { globals } from '@/common/states/globals';
 import { IErrors } from './common/interfaces/errors';
 import firebaseConnector from './data-sources/connectors/auth/firebase/firebase-connector';
 import { firestoreDataSourceImpl } from './data-sources/implementations/firestore-data-source';
+import  "./logger";
 
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
-
 //TODO:
-// - Verify if data is synced with server by sending integrity check
-// - Verify if data is synced locally by comparing file contents | OK
 // - endpoints informing if server is working properly, next update time, etc
 // - verify if current queries are ocuppying the entire cron time-window and if it's possible to run more queries
 // - auto update
-// - auto install
-// - auto start
-// - security and flood protection - CORS
-// - micro-service authentification and authorization | OK
 
 (async () => {
     try {  
