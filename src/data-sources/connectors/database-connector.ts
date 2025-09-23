@@ -12,6 +12,8 @@ const libDir = path.resolve(process.cwd(), "src/resources/instantclient_19_28");
 if (!existsSync(libDir)) {
     logger.error('Orable libDir not found')
     throw new Error('Oracle libDir not found:' + libDir)
+} else {
+    oracledb.initOracleClient({ libDir });
 }
 
 export const databaseConnection = new Sequelize(
