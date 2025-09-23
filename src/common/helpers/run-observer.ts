@@ -10,6 +10,7 @@ import { OcurrenceData } from '@/entities/ocurrence-data';
 import { remoteFileSystemDataSourceImpl } from '@/data-sources/implementations/remote-file-system-data-source';
 import { Blob } from 'buffer';
 import { ocurrenceDataSourceImpl } from '@/data-sources/implementations/occurence-data-source';
+import { logger } from '@/logger';
 
 export const runObserver = async (
     observer: Observer,
@@ -52,7 +53,7 @@ export const runObserver = async (
     });
 
     if (!queryResult?.length) {
-        console.error(`No results found for query: ${sql?.sql}`);
+        logger.error(`No results found for query: ${sql?.sql}`);
         return {
             executionMS,
             fieldRestrictionsTriggered: false,

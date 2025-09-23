@@ -2,6 +2,7 @@ import { ISqlDataSource } from '@interfaces/sql-data-source';
 import path from 'path';
 import { axiosApiConnector } from '../connectors/axios-api-connector';
 import { IErrors } from '@/common/interfaces/errors';
+import { logger } from '@/logger';
 
 export const sqlDataSourceImpl: ISqlDataSource = ({ fileSystemDataSource }) => {
     return {
@@ -18,7 +19,7 @@ export const sqlDataSourceImpl: ISqlDataSource = ({ fileSystemDataSource }) => {
                 });
                 return sql;
             } catch (error) {
-                console.error(error);
+                logger.error(error);
                 throw {
                     message: `Error reading %/remoteData/sqls/${observerId}.json`,
                     origin: 'fs',

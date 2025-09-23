@@ -15,6 +15,7 @@ import { sqlDataSourceImpl } from './sql-data-source';
 import { fileSystemDataSourceImpl } from './file-system-data-source';
 import { observerDataSourceImpl } from './observer-data-source';
 import { downloadObservers } from '@/common/helpers/download-observers';
+import { logger } from '@/logger';
 
 export const firestoreDataSourceImpl: IFirestoreDataSource = {
     updateClientStatus: async (key: string, value: any) => {
@@ -30,7 +31,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 },
                 { merge: true }
             ).catch((error) => {
-                console.error('Error updating document: ', error);
+                logger.error('Error updating document: ', error);
             });
         } catch (error) {
             throw error;
@@ -88,7 +89,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 },
                 { merge: true }
             ).catch((error) => {
-                console.error('Error updating document: ', error);
+                logger.error('Error updating document: ', error);
             });
 
             return {

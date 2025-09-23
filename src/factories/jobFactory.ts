@@ -5,6 +5,7 @@ import { firestoreDataSourceImpl } from '@/data-sources/implementations/firestor
 import { IFileSystemDataSource } from '@/data-sources/interfaces/file-system-data-source';
 import { IObserverDataSource } from '@/data-sources/interfaces/observer-data-source';
 import { ISqlDataSource } from '@/data-sources/interfaces/sql-data-source';
+import { logger } from '@/logger';
 import { CronJob, } from 'cron';
 
 export const jobFactory = async ({
@@ -34,7 +35,7 @@ export const jobFactory = async ({
                         }).getLocalSql({ observerId: observer.observer_id });
 
                         if (!sql) {
-                            console.error(
+                            logger.error(
                                 `No sql found for id: ${observer?.observer_id})}`
                             );
                             return;

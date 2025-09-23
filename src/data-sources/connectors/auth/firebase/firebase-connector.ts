@@ -9,6 +9,7 @@ import {
 import { axiosApiConnector } from '../../axios-api-connector';
 import { IErrors } from '@/common/interfaces/errors';
 import { globals } from '@/common/states/globals';
+import { logger } from '@/logger';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyDPvt6II8VgVvoq9c4eEroUzgdKl-6YZHw',
@@ -29,7 +30,7 @@ onAuthStateChanged(getAuth(app), (user) => {
                 console.log('FIREBASE: User authenticated'.bgBlue);
             })
             .catch((error) => {
-                console.error(
+                logger.error(
                     'FIREBASE: Error while authenticating on firebase through main api, trying again in 10 minutes...'
                         .bgRed
                 );

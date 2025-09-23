@@ -4,11 +4,13 @@ import dotenv from 'dotenv';
 import path from 'path';
 import oracledb from 'oracledb';
 import { existsSync } from 'fs';
+import { logger } from '@/logger';
 
 dotenv.config({ path: path.join(__dirname, '../../../.env') });
 
 const libDir = path.resolve(process.cwd(), "src/resources/instantclient_19_28");
 if (!existsSync(libDir)) {
+    logger.error('Orable libDir not found')
     throw new Error('Oracle libDir not found:' + libDir)
 }
 
@@ -34,11 +36,11 @@ export const databaseConnection = new Sequelize(
 (async () => {
     try {
         await databaseConnection.authenticate({ logging: false });
-        console.log(
+        logger.info(
             'DATABASE: Connection has been established successfully.'.bgBlue
         );
     } catch (error) {
-        console.error(
+        logger.error(
             'DATABASE: Unable to connect to the database:'.bgRed,
             error
         );
