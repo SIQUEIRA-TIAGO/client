@@ -40,9 +40,6 @@ async function updateRepoAndBuild() {
 }
 
 // Agendamento: todos os dias às 00:00
-const job = cron.CronJob.from({
-    cronTime: "0 0 * * *",
-    onTick: updateRepoAndBuild
-});
+const job = new cron.CronJob("0 0 * * *", updateRepoAndBuild);
 
 job.start()
