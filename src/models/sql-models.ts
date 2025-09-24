@@ -8,13 +8,13 @@ export const sqlModels = {
     }): Promise<
         | false
         | {
-              query: { field: string; type: string }[];
-              result: string | null;
-              executionMS: number;
-          }
+            query: { field: string; type: string }[];
+            result: string | null;
+            executionMS: number;
+        }
     > => {
-        const getMibs = (str: string) => {
-            return Math.ceil(str.length / 1048576);
+        const getFileSizeInMB = (str: string) => {
+            return new TextEncoder().encode(str).length / 1_000_000;
         };
 
         try {
@@ -41,7 +41,7 @@ export const sqlModels = {
                 ).values(),
             ];
 
-            const fileTooBig = getMibs(JSON.stringify(result)) > 1;
+            const fileTooBig = getFileSizeInMB(JSON.stringify(result)) > 100;
 
             return {
                 query: uniqueReturnResult,
