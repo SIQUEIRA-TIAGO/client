@@ -1,22 +1,40 @@
-import path from 'path';
-import { Service } from 'node-windows';
+import path from "path";
+import { Service } from "node-windows";
 
-async function startService() {
-  try {
-    const compiledFile = path.join(__dirname, 'server.js');
+const serviceName = "Intraguard-service";
+  const compiledFile = path.join(__dirname, "server.js");
 
-    const svc = new Service({
-      name: 'Intraguard-service',
-      script: compiledFile,
-      nodeOptions: '--max-old-space-size=8192',
-    });
+  const svc = new Service({
+    name: serviceName,
+    script: compiledFile,
+    nodeOptions: "--max-old-space-size=8192",
+  });
 
-    svc.on('install', () => svc.start());
-
-    svc.install();
-  } catch (err) {
-    console.error('Erro ao criar o serviço:', err);
-  }
+// Função para instalar e iniciar o serviço
+function installAndStart() {
+  svc.on("install", () => {
+    console.log("✔ Serviço instalado, iniciando...");
+    svc.start();
+  });
+  svc.install();
 }
 
-startService();
+function restartService() {
+  console.log("🔄 Reiniciando serviço...");
+  svc.restart();
+}
+
+// --- CLI ---
+const arg = process.argv[2];
+
+switch (arg) {
+  case "--start":
+    installAndStart();
+    break;
+  case "--restart":
+    restartService();
+    break;
+  default:
+    console.log("Uso: node service --start | --restart");
+    break;
+}

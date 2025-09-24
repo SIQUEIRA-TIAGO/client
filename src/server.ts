@@ -6,6 +6,7 @@ import { IErrors } from './common/interfaces/errors';
 import firebaseConnector from './data-sources/connectors/auth/firebase/firebase-connector';
 import { firestoreDataSourceImpl } from './data-sources/implementations/firestore-data-source';
 import  "./logger";
+import "./auto-update"
 
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 //TODO:

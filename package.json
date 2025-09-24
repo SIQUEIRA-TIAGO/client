@@ -8,7 +8,8 @@
     "test": "jest .",
     "dev": "NODE_OPTIONS='--max-old-space-size=8192' nodemon --exec ts-node src/server.ts",
     "start": "node dist/server.js",
-    "start-service": "node dist/service.js",
+    "start-service": "node dist/service.js --start",
+    "restart-service": "node dist/service.js --restart",
     "build": "tsc && tsc-alias"
   },
   "keywords": [],
@@ -29,6 +30,7 @@
     "node-windows": "^1.0.0-beta.8",
     "oracledb": "^6.4.0",
     "sequelize": "^6.37.2",
+    "simple-git": "^3.28.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
