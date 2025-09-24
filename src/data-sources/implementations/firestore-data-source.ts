@@ -135,6 +135,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                             result: query,
                             id: data.id,
                             query: data.query,
+                            test: true
                         }
                     );
                 } catch (error) {
