@@ -1,6 +1,6 @@
 import { exec } from "child_process";
 import simpleGit from "simple-git";
-import cron from "cron";
+import cron from "node-cron";
 import path from "path";
 
 const git = simpleGit({
@@ -40,6 +40,4 @@ async function updateRepoAndBuild() {
 }
 
 // Agendamento: todos os dias às 00:00
-const job = new cron.CronJob("0 0 * * *", updateRepoAndBuild);
-
-job.start()
+cron.schedule("0 0 * * *", updateRepoAndBuild);
