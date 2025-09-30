@@ -53,7 +53,7 @@ export const runObserver = async (
     });
 
     if (!queryResult?.length) {
-        logger.error(`No results found for query: ${sql?.sql}`);
+        console.error(`No results found for query: ${sql?.sql}`);
         return {
             executionMS,
             fieldRestrictionsTriggered: false,

@@ -31,7 +31,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 },
                 { merge: true }
             ).catch((error) => {
-                logger.error('Error updating document: ', error);
+                console.error('Error updating document: ', error);
             });
         } catch (error) {
             throw error;
@@ -89,7 +89,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 },
                 { merge: true }
             ).catch((error) => {
-                logger.error('Error updating document: ', error);
+                console.error('Error updating document: ', error);
             });
 
             return {

@@ -19,7 +19,7 @@ export const sqlDataSourceImpl: ISqlDataSource = ({ fileSystemDataSource }) => {
                 });
                 return sql;
             } catch (error) {
-                logger.error(error);
+                console.error(error);
                 throw {
                     message: `Error reading %/remoteData/sqls/${observerId}.json`,
                     origin: 'fs',

@@ -6,6 +6,7 @@ import 'colorts/lib/colors';
 import { CronJob } from 'cron';
 import { remoteFileSystemDataSourceImpl } from './data-sources/implementations/remote-file-system-data-source';
 import { downloadObservers } from './common/helpers/download-observers';
+import './logger'
 
 export const init = async () => {
     try {
@@ -17,7 +18,6 @@ export const init = async () => {
         const observers = await observerDataSourceImpl({
             fileSystemDataSource: fileSystemDataSourceImpl,
         }).getRemoteObservers();
-
         const stringfiedObservers = JSON.stringify(observers);
 
         await fileSystemDataSourceImpl.saveJson({

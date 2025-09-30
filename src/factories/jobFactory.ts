@@ -35,7 +35,7 @@ export const jobFactory = async ({
                         }).getLocalSql({ observerId: observer.observer_id });
 
                         if (!sql) {
-                            logger.error(
+                            console.error(
                                 `No sql found for id: ${observer?.observer_id})}`
                             );
                             return;

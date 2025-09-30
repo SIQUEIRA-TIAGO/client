@@ -30,7 +30,7 @@ onAuthStateChanged(getAuth(app), (user) => {
                 console.log('FIREBASE: User authenticated'.bgBlue);
             })
             .catch((error) => {
-                logger.error(
+                console.error(
                     'FIREBASE: Error while authenticating on firebase through main api, trying again in 10 minutes...'
                         .bgRed
                 );

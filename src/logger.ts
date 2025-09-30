@@ -1,21 +1,31 @@
 // logger.ts
-import { createLogger, format, transports } from "winston";
+import { createLogger, format, transports, stream } from "winston";
 
 export const logger = createLogger({
   level: "info",
   format: format.combine(
     format.timestamp(),
+    format.colorize(),
     format.printf(({ timestamp, level, message }) => {
       return `[${timestamp}] [${level.toUpperCase()}] ${message}`;
     })
   ),
   transports: [
-    new transports.Console(),
-    new transports.File({ filename: 'logs/service.log', maxsize: 5_000_000, maxFiles: 5 }),
+    new transports.File({ filename: 'logs/error.log', level: 'error' }),
+    new transports.File({ filename: 'logs/combined.log' }),
   ],
+  exceptionHandlers: [
+    new transports.File({ filename: 'logs/exceptions.log' })
+  ],
+  rejectionHandlers: [
+    new transports.File({ filename: 'logs/rejections.log' })
+  ]
 });
 
-// Captura erros globais
+stream({ start: -1 }).on('log', function (log) {
+  console.log(log);
+});
+
 process.on("uncaughtException", (err) => {
   logger.error(`Uncaught Exception: ${err.stack || err.message}`);
 });
