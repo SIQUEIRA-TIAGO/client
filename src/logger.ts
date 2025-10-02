@@ -1,21 +1,24 @@
 // logger.ts
 import { createLogger, format, transports } from "winston";
+import Transport from "winston-transport";
 import axios from "axios";
-
-async function notifyServer() {
-  try {
-    await axios.post(
-      `${process.env.CENTRAL_API_BASE_URL}client/crash`,
-      {},
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.ACCESS_TOKEN || "",
-        },
-      }
-    );
-  } catch (err) {
-    console.error("Falha ao notificar servidor:", err);
+export class NotifyServerTransport extends Transport {
+  async log(info: any, callback: () => void) {
+    setImmediate(() => this.emit("logged", info));
+    try {
+      await axios.get(
+        `${process.env.CENTRAL_API_BASE_URL}client/crash`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.ACCESS_TOKEN}` || "",
+          },
+        }
+      );
+    } catch (err) {
+      console.error("Falha ao notificar servidor:", err);
+    }
+    callback();
   }
 }
 
@@ -38,20 +41,13 @@ export const logger = createLogger({
 // Handlers de exceções não capturadas
 logger.exceptions.handle(
   new transports.Console(),
-  new transports.File({ filename: "logs/exceptions.log" })
+  new transports.File({ filename: "logs/exceptions.log" }),
+  new NotifyServerTransport()
 );
 
 // Handlers de rejections não tratados
 logger.rejections.handle(
   new transports.Console(),
-  new transports.File({ filename: "logs/rejections.log" })
+  new transports.File({ filename: "logs/rejections.log" }),
+  new NotifyServerTransport()
 );
-
-// Ouvindo eventos para notificar o servidor
-logger.on("uncaughtException", (err) => {
-  notifyServer();
-});
-
-logger.on("unhandledRejection", (reason) => {
-  notifyServer();
-});
