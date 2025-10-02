@@ -53,7 +53,7 @@ export const runObserver = async (
     });
 
     if (!queryResult?.length) {
-        console.error(`No results found for query: ${sql?.sql}`);
+        logger.error(`No results found for query: ${sql?.sql}`);
         return {
             executionMS,
             fieldRestrictionsTriggered: false,
@@ -120,7 +120,7 @@ export const runObserver = async (
     });
 
     const sendOcurrence = async (is_recovery: boolean) => {
-        console.log(`Observer ${observer?.sql_url} triggered`.bgRed);
+        logger.info(`Observer ${observer?.sql_url} triggered`.bgRed);
         const ocurrenceId = generateUUIDv7();
 
         await remoteFileSystemDataSourceImpl.uploadFile(

@@ -1,4 +1,5 @@
 import { IErrors } from '@/common/interfaces/errors';
+import { logger } from '@/logger';
 import { IFileSystemDataSource } from '@interfaces/file-system-data-source';
 import fs from 'fs-extra';
 
@@ -7,7 +8,7 @@ export const fileSystemDataSourceImpl: IFileSystemDataSource = {
         try {
             return JSON.parse(await fs.readFile(where, { encoding: 'utf-8' }));
         } catch (err) {
-            console.log(err);
+            logger.info(err);
             throw { message: 'Error getting file', origin: 'fs' } as IErrors;
         }
     },

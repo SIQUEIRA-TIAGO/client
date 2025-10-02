@@ -1,5 +1,14 @@
 // logger.ts
-import { createLogger, format, transports, stream } from "winston";
+import { createLogger, format, transports } from "winston";
+import { axiosApiConnector } from "./data-sources/connectors/axios-api-connector";
+
+async function notifyServer() {
+  try {
+    await axiosApiConnector.post('/client/crash');
+  } catch (err) {
+    console.error("Falha ao notificar servidor:", err);
+  }
+}
 
 export const logger = createLogger({
   level: "info",
@@ -11,25 +20,18 @@ export const logger = createLogger({
     })
   ),
   transports: [
+    new transports.Console(),
     new transports.File({ filename: 'logs/error.log', level: 'error' }),
     new transports.File({ filename: 'logs/combined.log' }),
   ],
   exceptionHandlers: [
-    new transports.File({ filename: 'logs/exceptions.log' })
+    new transports.Console(),
+    new transports.File({ filename: 'logs/exceptions.log' }),
+    notifyServer()
   ],
   rejectionHandlers: [
-    new transports.File({ filename: 'logs/rejections.log' })
+    new transports.Console(),
+    new transports.File({ filename: 'logs/rejections.log' }),
+    notifyServer()
   ]
-});
-
-stream({ start: -1 }).on('log', function (log) {
-  console.log(log);
-});
-
-process.on("uncaughtException", (err) => {
-  logger.error(`Uncaught Exception: ${err.stack || err.message}`);
-});
-
-process.on("unhandledRejection", (reason) => {
-  logger.error(`Unhandled Rejection: ${reason}`);
 });

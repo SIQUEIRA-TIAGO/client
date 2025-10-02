@@ -3,6 +3,7 @@ import { IObserverDataSource } from '@interfaces/observer-data-source';
 import path from 'path';
 import { axiosApiConnector } from '../connectors/axios-api-connector';
 import { IErrors } from '@/common/interfaces/errors';
+import { logger } from '@/logger';
 
 export const observerDataSourceImpl: IObserverDataSource = ({
     fileSystemDataSource,
@@ -11,7 +12,7 @@ export const observerDataSourceImpl: IObserverDataSource = ({
         return {
             getRemoteObservers: async () => {
                 try {
-                    console.log('Getting remote observers'.bgYellow);
+                    logger.info('Getting remote observers'.bgYellow);
                     let result = await axiosApiConnector.get<{payload: Observer[]}>(
                         'client/observer/get-all'
                     );

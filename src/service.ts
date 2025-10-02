@@ -1,26 +1,33 @@
 import path from "path";
-import { Service } from "node-windows";
+import { EventLogger, Service } from "node-windows";
 
 const serviceName = "Intraguard-service";
-  const compiledFile = path.join(__dirname, "server.js");
+const compiledFile = path.join(__dirname, "server.js");
+const  log  =  new  EventLogger()
 
-  const svc = new Service({
-    name: serviceName,
-    script: compiledFile,
-    nodeOptions: "--max-old-space-size=8192",
-  });
+const svc = new Service({
+  name: serviceName,
+  script: compiledFile,
+  nodeOptions: "--max-old-space-size=8192",
+  logpath: path.join(__dirname, "logs"),
+  wait: 2,
+  grow: 0.25,
+  maxRestarts: 5,
+  abortOnError: false,
+  stopparentfirst: true,
+});
 
 // Função para instalar e iniciar o serviço
 function installAndStart() {
   svc.on("install", () => {
-    console.log("✔ Serviço instalado, iniciando...");
+    log.info("✔ Serviço instalado, iniciando...");
     svc.start();
   });
   svc.install();
 }
 
 function restartService() {
-  console.log("🔄 Reiniciando serviço...");
+  log.info("🔄 Reiniciando serviço...");
   svc.restart();
 }
 

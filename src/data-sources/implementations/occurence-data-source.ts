@@ -2,6 +2,7 @@ import { IErrors } from '@/common/interfaces/errors';
 import { axiosApiConnector } from '../connectors/axios-api-connector';
 import { IOccurenceDataSource } from '../interfaces/ocurrence-data-source';
 import { globals } from '@/common/states/globals';
+import { logger } from '@/logger';
 
 export const ocurrenceDataSourceImpl: IOccurenceDataSource = () => ({
     postOcurrence: async (ocurrence) => {
@@ -21,7 +22,7 @@ export const ocurrenceDataSourceImpl: IOccurenceDataSource = () => ({
 
             return result.data.payload;
         } catch (error) {
-            console.dir(error, { depth: 0 })
+            logger.error(error)
             throw {
                 origin: 'api',
                 message: 'Error while sending ocurrence to api',

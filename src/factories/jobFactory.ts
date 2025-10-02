@@ -35,7 +35,7 @@ export const jobFactory = async ({
                         }).getLocalSql({ observerId: observer.observer_id });
 
                         if (!sql) {
-                            console.error(
+                            logger.error(
                                 `No sql found for id: ${observer?.observer_id})}`
                             );
                             return;
@@ -59,13 +59,13 @@ export const jobFactory = async ({
                                             ocurrence_triggered: false,
                                         }
                                     );
-                                    console.log(error);
+                                    logger.info(error);
                                 }
                             },
                             context: { name: observer?.sql_url },
                         });
                     } catch (error) {
-                        console.log(error);
+                        logger.info(error);
                     }
                 })
             )

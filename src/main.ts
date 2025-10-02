@@ -6,14 +6,14 @@ import 'colorts/lib/colors';
 import { CronJob } from 'cron';
 import { remoteFileSystemDataSourceImpl } from './data-sources/implementations/remote-file-system-data-source';
 import { downloadObservers } from './common/helpers/download-observers';
-import './logger'
+import { logger } from './logger';
 
 export const init = async () => {
     try {
-        console.log('Cleaning up old data'.bgBlue.black);
+        logger.info('Cleaning up old data'.bgBlue.black);
         await fileSystemDataSourceImpl.saveJson({ what: '[]', where: '../remoteData/observers.json' });
 
-        console.log('Initializing sync'.bgBlue.black);
+        logger.info('Initializing sync'.bgBlue.black);
 
         const observers = await observerDataSourceImpl({
             fileSystemDataSource: fileSystemDataSourceImpl,
@@ -46,7 +46,7 @@ export const init = async () => {
             })
         );
 
-        console.log('Observers and sqls saved'.bgBlue.black);
+        logger.info('Observers and sqls saved'.bgBlue.black);
 
 
         const jobs = await jobFactory({
@@ -69,7 +69,7 @@ export const mainCron = () => {
             try {
                 await downloadObservers();
             } catch (error) {
-                console.log(error)
+                logger.info('Error when trying to download observers' + error)
             }
         },
         runOnInit: true,

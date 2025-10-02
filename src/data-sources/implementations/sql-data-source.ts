@@ -19,7 +19,7 @@ export const sqlDataSourceImpl: ISqlDataSource = ({ fileSystemDataSource }) => {
                 });
                 return sql;
             } catch (error) {
-                console.error(error);
+                logger.error(error);
                 throw {
                     message: `Error reading %/remoteData/sqls/${observerId}.json`,
                     origin: 'fs',
@@ -31,7 +31,7 @@ export const sqlDataSourceImpl: ISqlDataSource = ({ fileSystemDataSource }) => {
                 const sql = await axiosApiConnector.get<string>(url);
                 return sql.data;
             } catch (error) {
-                console.log(error);
+                logger.info(error);
                 throw {
                     message: `Error reading ${url}`,
                     origin: 'api.axios',

@@ -5,8 +5,8 @@ import { globals } from '@/common/states/globals';
 import { IErrors } from './common/interfaces/errors';
 import firebaseConnector from './data-sources/connectors/auth/firebase/firebase-connector';
 import { firestoreDataSourceImpl } from './data-sources/implementations/firestore-data-source';
-import  "./logger";
 import "./auto-update"
+import { logger } from './logger';
 
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 //TODO:
@@ -15,7 +15,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 // - auto update
 
 (async () => {
-    try {  
+    try {
         if (!process.env.ACCESS_TOKEN)
             throw {
                 origin: '.env',
@@ -28,8 +28,16 @@ dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
         firestoreDataSourceImpl.listenForForcedDownload();
         mainCron()?.start();
     } catch (error: IErrors | any) {
-        console.error(error);
-        if (!('origin' in error)) return;
-        if (error.origin == '.env') process.exit(1);
+        logger.error('ERROR IN SERVER: ', error);
+        if (('origin' in error) && error.origin === '.env') {
+        }
     }
 })();
+
+process.on("uncaughtException", (err) => {
+    logger.error(`Uncaught Exception HEEERE: ${err.stack || err.message}`);
+});
+
+process.on("unhandledRejection", (reason) => {
+    logger.error(`Unhandled Rejection HEERE: ${reason}`);
+});

@@ -31,7 +31,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 },
                 { merge: true }
             ).catch((error) => {
-                console.error('Error updating document: ', error);
+                logger.error('Error updating document: ', error);
             });
         } catch (error) {
             throw error;
@@ -89,7 +89,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 },
                 { merge: true }
             ).catch((error) => {
-                console.error('Error updating document: ', error);
+                logger.error('Error updating document: ', error);
             });
 
             return {
@@ -138,7 +138,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         }
                     );
                 } catch (error) {
-                    console.log(error);
+                    logger.info(error);
                 }
             }
         );
@@ -225,7 +225,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         error: false,
                     });
                 } catch (error) {
-                    console.log(error);
+                    logger.info(error);
                     updateStatus({
                         already_ran: true,
                         result_ok: false,
@@ -268,7 +268,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         );
                     }
                 } catch (error) {
-                    console.log(error);
+                    logger.info(error);
                 }
             }
         );

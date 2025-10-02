@@ -27,10 +27,10 @@ onAuthStateChanged(getAuth(app), (user) => {
     const interval = setInterval(() => {
         authenticateThroughApi()
             .then(() => {
-                console.log('FIREBASE: User authenticated'.bgBlue);
+                logger.info('FIREBASE: User authenticated'.bgBlue);
             })
             .catch((error) => {
-                console.error(
+                logger.error(
                     'FIREBASE: Error while authenticating on firebase through main api, trying again in 10 minutes...'
                         .bgRed
                 );
@@ -38,7 +38,7 @@ onAuthStateChanged(getAuth(app), (user) => {
     }, 1000 * 60 * 10);
 
     if (user) {
-        console.log('FIREBASE: User authenticated on firebase'.bgBlue);
+        logger.info('FIREBASE: User authenticated on firebase'.bgBlue);
         globals.is_auth_firebase = true;
         clearInterval(interval);
     }else{
