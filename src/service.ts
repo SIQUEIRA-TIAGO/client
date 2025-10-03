@@ -3,13 +3,14 @@ import { EventLogger, Service } from "node-windows";
 
 const serviceName = "Intraguard-service";
 const compiledFile = path.join(__dirname, "server.js");
-const  log  =  new  EventLogger()
+
+const log = new EventLogger({ source: serviceName });
 
 const svc = new Service({
   name: serviceName,
+  description: "Intraguard Node service",
   script: compiledFile,
-  nodeOptions: "--max-old-space-size=8192",
-  logpath: path.join(__dirname, "logs"),
+  nodeOptions: ["--max-old-space-size=8192"],
   wait: 2,
   grow: 0.25,
   maxRestarts: 5,
@@ -17,23 +18,36 @@ const svc = new Service({
   stopparentfirst: true,
 });
 
-// Função para instalar e iniciar o serviço
+svc.on("error", (err) => log.error(`Erro: ${err?.message || err}`));
+svc.on("install", () => { log.info("✔ Serviço instalado."); svc.start(); });
+svc.on("alreadyinstalled", () => { log.warn("⚠ Já instalado. Iniciando..."); svc.start(); });
+svc.on("invalidinstallation", () => log.error("Instalação inválida."));
+svc.on("start", () => log.info("🚀 Serviço iniciado."));
+svc.on("stop", () => log.info("🛑 Serviço parado."));
+
 function installAndStart() {
-  svc.on("install", () => {
-    log.info("✔ Serviço instalado, iniciando...");
+  if (svc.exists) {
+    log.info("Serviço já existe. Reinstalando...");
     svc.start();
-  });
-  svc.install();
+  } else {
+    log.info("Instalando serviço...");
+    svc.install();
+  }
 }
 
 function restartService() {
   log.info("🔄 Reiniciando serviço...");
-  svc.restart();
+  if (!svc.exists) {
+    log.warn("Serviço não encontrado. Instalando e iniciando...");
+    svc.on("install", () => svc.start());
+    svc.install();
+  } else {
+    svc.restart();
+  }
 }
 
 // --- CLI ---
 const arg = process.argv[2];
-
 switch (arg) {
   case "--start":
     installAndStart();
