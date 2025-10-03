@@ -18,12 +18,37 @@ const svc = new Service({
   stopparentfirst: true,
 });
 
-svc.on("error", (err) => log.error(`Erro: ${err?.message || err}`));
-svc.on("install", () => { log.info("✔ Serviço instalado."); svc.start(); });
-svc.on("alreadyinstalled", () => { log.warn("⚠ Já instalado. Iniciando..."); svc.start(); });
-svc.on("invalidinstallation", () => log.error("Instalação inválida."));
-svc.on("start", () => log.info("🚀 Serviço iniciado."));
-svc.on("stop", () => log.info("🛑 Serviço parado."));
+svc.on("error", (err) => {
+  console.log('Error in service:', err);
+  log.error(`Erro: ${err?.message || err}`)
+});
+
+svc.on("install", () => { 
+  console.log('Service installed');
+  log.info("✔ Serviço instalado.");
+  svc.start();
+});
+
+svc.on("alreadyinstalled", () => {
+  console.log('Service already installed');
+  log.warn("⚠ Já instalado. Iniciando...");
+  svc.start();
+});
+
+svc.on("invalidinstallation", () => {
+  console.log('Invalid installation');
+  log.error("Instalação inválida.")
+});
+
+svc.on("start", () => {
+  console.log('Service started');
+  log.info("🚀 Serviço iniciado.")
+});
+
+svc.on("stop", () => {
+  console.log('Service stopped');
+  log.info("🛑 Serviço parado.")
+});
 
 function installAndStart() {
   if (svc.exists) {
