@@ -5,7 +5,7 @@ import { globals } from '@/common/states/globals';
 import { IErrors } from './common/interfaces/errors';
 import firebaseConnector from './data-sources/connectors/auth/firebase/firebase-connector';
 import { firestoreDataSourceImpl } from './data-sources/implementations/firestore-data-source';
-import "./auto-update"
+//import "./auto-update"
 import { logger } from './logger';
 
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
