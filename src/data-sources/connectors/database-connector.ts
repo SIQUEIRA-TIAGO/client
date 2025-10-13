@@ -32,6 +32,7 @@ export const databaseConnection = new Sequelize(
             | 'oracle',
         dialectModule:
             process.env.DB_DIALECT == 'oracle' ? oracledb : undefined,
+        schema: process.env.DB_SCHEMA || undefined,
     }
 );
 
