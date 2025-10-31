@@ -24,12 +24,6 @@ export const axiosApiConnector = (() => {
     connector.interceptors.response.use(
         (response) => {
             globals.last_api_req_time = Date.now().valueOf();
-            if(!!globals.access_token && !!globals.is_auth_firebase){
-                firestoreDataSourceImpl.updateClientStatus(
-                    'last_api_req_time',
-                    Date.now().valueOf()
-                );
-            }
             return response;
         }
     );

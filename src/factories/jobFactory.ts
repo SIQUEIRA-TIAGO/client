@@ -45,20 +45,8 @@ export const jobFactory = async ({
                             cronTime: observer?.cron_expression,
                             onTick: async () => {
                                 try {
-                                    firestoreDataSourceImpl.updateClientStatus(
-                                        'last_cron_exec_time',
-                                        Date.now().valueOf()
-                                    );
                                     await runObserver(observer, sql);
                                 } catch (error) {
-                                    firestoreDataSourceImpl.updateClientStatus(
-                                        'last_cron_exec',
-                                        {
-                                            observer_id: observer.observer_id,
-                                            error: JSON.stringify(error),
-                                            ocurrence_triggered: false,
-                                        }
-                                    );
                                     logger.info(error);
                                 }
                             },
