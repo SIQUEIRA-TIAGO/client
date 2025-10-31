@@ -146,12 +146,6 @@ export const runObserver = async (
     if (!!fieldRestrictionsTriggered || !!rowRestrictionsTriggered) {
        await sendOcurrence(false)
     }
-    firestoreDataSourceImpl.updateClientStatus('last_cron_exec', {
-        observer_id: observer.observer_id,
-        error: null,
-        ocurrence_triggered:
-            !!fieldRestrictionsTriggered || !!rowRestrictionsTriggered,
-    });
 
     return {
         executionMS,

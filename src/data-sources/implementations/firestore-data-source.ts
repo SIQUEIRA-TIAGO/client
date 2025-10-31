@@ -18,25 +18,6 @@ import { downloadObservers } from '@/common/helpers/download-observers';
 import { logger } from '@/logger';
 
 export const firestoreDataSourceImpl: IFirestoreDataSource = {
-    updateClientStatus: async (key: string, value: any) => {
-        try {
-            setDoc(
-                doc(
-                    firestoreConnector,
-                    process.env.ORG_ID as string,
-                    'client'
-                ),
-                {
-                    [key]: value,
-                },
-                { merge: true }
-            ).catch((error) => {
-                logger.error('Error updating document: ', error);
-            });
-        } catch (error) {
-            throw error;
-        }
-    },
     updateClientJobsStatus: async ({
         last_execution_date,
         last_execution_MS,

@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 import { globals } from '@/common/states/globals';
-import { firestoreDataSourceImpl } from '../implementations/firestore-data-source';
 
 dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
 

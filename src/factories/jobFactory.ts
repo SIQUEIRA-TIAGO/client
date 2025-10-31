@@ -1,7 +1,6 @@
 import { runObserver } from '@/common/helpers/run-observer';
 import { IErrors } from '@/common/interfaces/errors';
 import { IObserverJobContext } from '@/common/interfaces/observer-job-context';
-import { firestoreDataSourceImpl } from '@/data-sources/implementations/firestore-data-source';
 import { IFileSystemDataSource } from '@/data-sources/interfaces/file-system-data-source';
 import { IObserverDataSource } from '@/data-sources/interfaces/observer-data-source';
 import { ISqlDataSource } from '@/data-sources/interfaces/sql-data-source';
