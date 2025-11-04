@@ -6,9 +6,10 @@ import oracledb from 'oracledb';
 import { existsSync } from 'fs';
 import { logger } from '@/logger';
 
-dotenv.config({ path: path.join(__dirname, '../../../.env') });
+const cwd = process.cwd();
+dotenv.config({ path: path.join(cwd, '.env') });
+const libDir = path.resolve(cwd, "src/resources/instantclient_19_28");
 
-const libDir = path.resolve(process.cwd(), "src/resources/instantclient_19_28");
 if (!existsSync(libDir)) {
     logger.error('Orable libDir not found')
     throw new Error('Oracle libDir not found:' + libDir)

@@ -8,7 +8,7 @@ import { firestoreDataSourceImpl } from './data-sources/implementations/firestor
 //import "./auto-update"
 import { logger } from './logger';
 
-dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 //TODO:
 // - endpoints informing if server is working properly, next update time, etc
 // - verify if current queries are ocuppying the entire cron time-window and if it's possible to run more queries

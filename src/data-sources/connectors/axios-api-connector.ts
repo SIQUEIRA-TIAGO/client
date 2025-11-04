@@ -4,7 +4,7 @@ import path from 'path';
 
 import { globals } from '@/common/states/globals';
 
-dotenv.config({ path: path.resolve(process.cwd(), '../.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 export const axiosApiConnector = (() => {
     let connector = axios.create({
