@@ -110,7 +110,7 @@ export const runObserver = async (
     };
 
     const sendOcurrence = async (is_recovery: boolean) => {
-        logger.info(`Observer ${observer?.sql_url} triggered`.bgYellow.black);
+        logger.info(`Observer ${observer?.sql_url} triggered`.yellow);
         const ocurrenceId = generateUUIDv7();
 
         await remoteFileSystemDataSourceImpl.uploadFile(

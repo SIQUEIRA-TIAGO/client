@@ -12,7 +12,6 @@ export const observerDataSourceImpl: IObserverDataSource = ({
         return {
             getRemoteObservers: async () => {
                 try {
-                    logger.info('Getting remote observers'.bgYellow);
                     let result = await axiosApiConnector.get<{payload: Observer[]}>(
                         'client/observer/get-all'
                     );
