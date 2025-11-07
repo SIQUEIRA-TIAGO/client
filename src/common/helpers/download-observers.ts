@@ -2,30 +2,47 @@ import { init } from "@/main";
 import { globals } from "../states/globals";
 import { IErrors } from "../interfaces/errors";
 import { logger } from "@/logger";
+import { CronJob } from "cron";
+import { IObserverJobContext } from "../interfaces/observer-job-context";
+
+/**
+ * Função para parar os jobs de observadores em execução
+ */
+const stopRunningObserverJobs = () => {
+    if (globals.observer_cron_jobs?.length > 0) {
+        logger.info('Stopping observer jobs'.bgBlue.black);
+        globals.observer_cron_jobs.forEach((job) => job.stop());
+        logger.info('Observer jobs stopped'.bgGreen.black);
+    } else {
+        logger.info('No observer jobs running'.bgBlue.black);
+    }
+};
+
+/**
+ * Função para iniciar os novos jobs de observadores
+ */
+const startNewObserverJobs = (newJobs: CronJob<null, IObserverJobContext>[]) => {
+    logger.info('Starting observer jobs'.bgBlue.black);
+    globals.observer_cron_jobs = newJobs;
+    globals.observer_cron_jobs.forEach((job) => job.start());
+    logger.info('Observer jobs started successfully'.bgGreen.black);
+};
 
 export const downloadObservers = async () => {
     try {
-        logger.info(
-            'Checking for new data on remote server'.bgBlue.black
-        );
+        stopRunningObserverJobs()
+
+        logger.info('Checking for new data on remote server'.bgBlue.black);
         const newJobs = await init();
-        logger.info('Sync finished successfully'.bgBlue.black);
-        if (globals.observer_cron_jobs?.length > 0) {
-            logger.info('Stopping running observer jobs'.bgBlue.black);
-            globals.observer_cron_jobs?.forEach((job) => job.stop());
-            logger.info('Observer jobs stopped'.bgBlue.black);
-        } else {
-            logger.info('No observer jobs running'.bgBlue.black);
-        }
-        logger.info('Starting observer jobs'.bgBlue.black);
-        globals.observer_cron_jobs = newJobs;
-        globals.observer_cron_jobs?.forEach((job) => job.start());
-        logger.info('Observer jobs started successfully'.bgBlue.black);
+        logger.info('Sync finished successfully'.bgGreen.black);
+
+        startNewObserverJobs(newJobs)
     } catch (error: object | any) {
         if (!('origin' in error)) return logger.info(error);
-        let internalError = error as IErrors;
+
+        const internalError = error as IErrors;
         if (internalError.origin === 'api') {
-            logger.info('Error on api request'.bgRed.black);
+            logger.error('Error on api request'.bgRed.black);
         }
     }
 }

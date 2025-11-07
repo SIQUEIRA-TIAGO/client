@@ -41,7 +41,7 @@ export const databaseConnection = new Sequelize(
     try {
         await databaseConnection.authenticate({ logging: false });
         logger.info(
-            'DATABASE: Connection has been established successfully.'.bgBlue
+            'DATABASE: Connection has been established successfully.'.bgWhite.black
         );
     } catch (error) {
         logger.error(

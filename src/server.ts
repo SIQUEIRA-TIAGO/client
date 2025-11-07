@@ -14,25 +14,42 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 // - verify if current queries are ocuppying the entire cron time-window and if it's possible to run more queries
 // - auto update
 
-(async () => {
+const configureAccessToken = (): void => {
+    if (!process.env.ACCESS_TOKEN) {
+        throw {
+            origin: '.env',
+            message: 'Error while connecting to searching for .env variables',
+        } as IErrors;
+    }
+    globals.access_token = process.env.ACCESS_TOKEN;
+};
+
+const initializeDataSources = async (): Promise<void> => {
+    await firebaseConnector();
+    firestoreDataSourceImpl.listenForSqlTest();
+    firestoreDataSourceImpl.listenForForcedExecution();
+    firestoreDataSourceImpl.listenForForcedDownload();
+};
+
+const initializeServer = async (): Promise<void> => {
     try {
-        if (!process.env.ACCESS_TOKEN)
-            throw {
-                origin: '.env',
-                message: 'Error while connecting to searching for .env variables',
-            } as IErrors;
-        globals.access_token = process.env.ACCESS_TOKEN;
-        await firebaseConnector();
-        firestoreDataSourceImpl.listenForSqlTest();
-        firestoreDataSourceImpl.listenForForcedExecution();
-        firestoreDataSourceImpl.listenForForcedDownload();
-        mainCron()?.start();
-    } catch (error: IErrors | any) {
-        logger.error('ERROR IN SERVER: ', error);
-        if (('origin' in error) && error.origin === '.env') {
+        configureAccessToken();
+        await initializeDataSources();
+
+        const cronJob = mainCron();
+        if (cronJob) {
+            cronJob.start();
+        }
+    } catch (error: any) {
+        if (error?.origin === '.env') {
+            logger.error('Error in .env configuration', error);
+        } else {
+            logger.error('Unexpected error in server initialization', error);
         }
     }
-})();
+};
+
+initializeServer()
 
 process.on("uncaughtException", (err) => {
     logger.error(`Uncaught Exception HEEERE: ${err.stack || err.message}`);
