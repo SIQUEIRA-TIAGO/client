@@ -1,31 +1,41 @@
 import { RowRestriction } from "@/entities/row-restriction";
+
 /**
  * 
  * @param rows 
  * @param rowRestrictions 
  * @returns true if any of the restrictions are met, false otherwise
  */
-export const checkRowRestrictions = (rows: Array<object>, rowRestrictions: RowRestriction[]): null | boolean => {
-    if (!!!rowRestrictions?.length) {
-        return null;
-    }
+export const checkRowRestrictions = (
+    rows: Array<object> = [],
+    rowRestrictions: RowRestriction[]
+): null | boolean => {
+    if (!Array.isArray(rowRestrictions) || rowRestrictions.length === 0) return null
 
-    const rowCount = rows.length;
+    const rowCount = Number(rows.length);
 
-    let result = rowRestrictions?.map((rowRestriction: RowRestriction) => {
+    for (const rowRestriction of rowRestrictions) {
+        let isValid = false;
+
         switch (rowRestriction.type) {
             case 'rows-gt':
-                return rowCount > rowRestriction.value;
+                isValid = rowCount > rowRestriction.value;
+                break;
             case 'rows-ls':
-                return rowCount < rowRestriction.value;
+                isValid = rowCount < rowRestriction.value;
+                break;
             case 'rows-eq':
-                return rowCount == rowRestriction.value;
+                isValid = rowCount === rowRestriction.value;
+                break;
             case 'rows-neq':
-                return rowCount != rowRestriction.value;
+                isValid = rowCount !== rowRestriction.value;
+                break;
             default:
-                return false;
+                continue;
         }
-    })
 
-    return result?.find((item)=>{return !!item}) ?? false;
+        if (isValid) return true;
+    }
+
+    return false;
 }

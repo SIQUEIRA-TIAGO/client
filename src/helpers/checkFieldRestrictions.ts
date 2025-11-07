@@ -1,5 +1,15 @@
 import { FieldRestriction } from '@/entities/field-restriction';
 
+const isNumeric = (value: any): boolean => /^-?\d+(\.\d+)?$/.test(value);
+
+const normalizeValue = (value: any): any => {
+    return typeof value === 'string'
+        ? isNumeric(value)
+            ? Number(value)
+            : value.trim().toLowerCase()
+        : value;
+};
+
 /**
  *
  * @param rows
@@ -7,7 +17,6 @@ import { FieldRestriction } from '@/entities/field-restriction';
  * @returns affeted rows and fields if any restriction is met,
  * false if no restriction is met, null if no restrictions are provided
  */
-
 export const checkFieldRestrictions = (
     rows: { [key: string]: any }[],
     fieldRestrictions: FieldRestriction[]
@@ -18,65 +27,51 @@ export const checkFieldRestrictions = (
     const affectedRows: { [key: string]: any }[] = [];
     const affectedFields: string[] = [];
 
-    if (!!!fieldRestrictions?.length) {
-        return null;
-    }
-    if (!!!rows?.length) {
-        return false;
-    }
+    if (!Array.isArray(fieldRestrictions) || fieldRestrictions.length === 0) return null;
+    if (!Array.isArray(rows) || rows.length === 0) return false;
 
-    let result = fieldRestrictions?.map((fieldRestriction) => {
-            return rows?.map((row, index) => {
-                let field = row[fieldRestriction.field];
+    fieldRestrictions.forEach((fieldRestriction) => {
+        rows.forEach(row => {
+            const field = row[fieldRestriction.field];
 
-                switch (fieldRestriction.type) {
-                    case 'gt':
-                        field > Number(fieldRestriction.value) &&
-                            affectedRows.push(row) &&
-                            affectedFields.push(fieldRestriction.field);
-                        return field > Number(fieldRestriction.value);
-                    case 'ls':
-                        field < Number(fieldRestriction.value) &&
-                            affectedRows.push(row) &&
-                            affectedFields.push(fieldRestriction.field);
-                        return field < Number(fieldRestriction.value);
-                    case 'eq':
-                        field == fieldRestriction.value &&
-                            affectedRows.push(row) &&
-                            affectedFields.push(fieldRestriction.field);
-                        return field == fieldRestriction.value;
-                    case 'neq':
-                        field != fieldRestriction.value &&
-                            affectedRows.push(row) &&
-                            affectedFields.push(fieldRestriction.field);
-                        return field != fieldRestriction.value;
-                    case 'contains':
-                        String(field)?.includes(fieldRestriction.value) &&
-                            affectedRows.push(row) &&
-                            affectedFields.push(fieldRestriction.field);
-                        return String(field)?.includes(fieldRestriction.value);
-                    case 'is-truthy':
-                        !!field &&
-                            affectedRows.push(row) &&
-                            affectedFields.push(fieldRestriction.field);
-                        return !!field;
-                    case 'is-falsy':
-                        !field &&
-                            affectedRows.push(row) &&
-                            affectedFields.push(fieldRestriction.field);
-                        return !field;
-                    default:
-                        return false;
-                }
-            });
-        }
+            const normalizedField = normalizeValue(field)
+            const normalizedValue = normalizeValue(fieldRestriction.value)
+
+            let isAffected = false;
+
+            switch (fieldRestriction.type) {
+                case 'gt':
+                    isAffected = normalizedField > normalizedValue;
+                    break;
+                case 'ls':
+                    isAffected = normalizedField < normalizedValue;
+                    break;
+                case 'eq':
+                    isAffected = normalizedField == normalizedValue;
+                    break;
+                case 'neq':
+                    isAffected = normalizedField != normalizedValue;
+                    break;
+                case 'contains':
+                    isAffected = String(normalizedField).includes(normalizedValue);
+                    break;
+                case 'is-truthy':
+                    isAffected = !!field;
+                    break;
+                case 'is-falsy':
+                    isAffected = !field;
+                    break;
+                default:
+                    isAffected = false;
+            }
+
+            if (isAffected) {
+                affectedRows.push(row);
+                affectedFields.push(fieldRestriction.field);
+            }
+        });
+    }
     );
 
-    let flatResult = result.flat();
-   
-    return flatResult?.find((item) => {
-        return !!item;
-    })
-        ? { affectedRows, affectedFields }
-        : false;
+    return affectedRows.length > 0 ? { affectedRows, affectedFields } : false
 };
