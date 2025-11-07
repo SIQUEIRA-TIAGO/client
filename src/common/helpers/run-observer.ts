@@ -21,25 +21,25 @@ export const runObserver = async (
 ): Promise<{
     executionMS: number;
     fieldRestrictionsTriggered:
-        | false
-        | {
-              affectedRows: {
-                  [key: string]: any;
-              }[];
-              affectedFields: string[];
-          }
-        | null;
+    | false
+    | {
+        affectedRows: {
+            [key: string]: any;
+        }[];
+        affectedFields: string[];
+    }
+    | null;
     rowRestrictionsTriggered: boolean;
     queryResult: object[];
 }> => {
     let fieldRestrictionsTriggered:
         | false
         | {
-              affectedRows: {
-                  [key: string]: any;
-              }[];
-              affectedFields: string[];
-          }
+            affectedRows: {
+                [key: string]: any;
+            }[];
+            affectedFields: string[];
+        }
         | null = false;
     let rowRestrictionsTriggered = false;
     let executionMS = 0;
@@ -77,24 +77,24 @@ export const runObserver = async (
             affectedRows: {
                 result:
                     fieldRestrictionsTriggered &&
-                    fieldRestrictionsTriggered.affectedRows?.length
+                        fieldRestrictionsTriggered.affectedRows?.length
                         ? fieldRestrictionsTriggered.affectedRows
                         : queryResult,
                 count:
                     fieldRestrictionsTriggered &&
-                    fieldRestrictionsTriggered.affectedRows?.length
+                        fieldRestrictionsTriggered.affectedRows?.length
                         ? fieldRestrictionsTriggered.affectedRows.length
                         : queryResult.length,
             },
             affectedFields: {
                 result:
                     fieldRestrictionsTriggered &&
-                    fieldRestrictionsTriggered.affectedFields?.length
+                        fieldRestrictionsTriggered.affectedFields?.length
                         ? fieldRestrictionsTriggered.affectedFields
                         : [],
                 count:
                     fieldRestrictionsTriggered &&
-                    fieldRestrictionsTriggered.affectedFields?.length
+                        fieldRestrictionsTriggered.affectedFields?.length
                         ? fieldRestrictionsTriggered.affectedFields.length
                         : 0,
             },
@@ -108,16 +108,6 @@ export const runObserver = async (
             observerId: observer.observer_id,
         },
     };
-
-    let {should_send_recovery} = await firestoreDataSourceImpl.updateClientJobsStatus({
-        last_execution_date: new Date().valueOf(),
-        last_execution_MS: executionMS,
-        last_result_ok: !(
-            !!fieldRestrictionsTriggered || !!rowRestrictionsTriggered
-        ),
-        next_execution_date: sendAt(observer.cron_expression).toMillis(),
-        observer_id: observer.observer_id,
-    });
 
     const sendOcurrence = async (is_recovery: boolean) => {
         logger.info(`Observer ${observer?.sql_url} triggered`.bgRed);
@@ -140,11 +130,10 @@ export const runObserver = async (
             });
     }
 
-    if(should_send_recovery){
-        await sendOcurrence(true)
-    }
     if (!!fieldRestrictionsTriggered || !!rowRestrictionsTriggered) {
-       await sendOcurrence(false)
+        await sendOcurrence(false)
+    } else {
+        await sendOcurrence(true)
     }
 
     return {

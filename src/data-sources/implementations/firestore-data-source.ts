@@ -18,68 +18,6 @@ import { downloadObservers } from '@/common/helpers/download-observers';
 import { logger } from '@/logger';
 
 export const firestoreDataSourceImpl: IFirestoreDataSource = {
-    updateClientJobsStatus: async ({
-        last_execution_date,
-        last_execution_MS,
-        last_result_ok,
-        next_execution_date,
-        observer_id,
-       
-    }) => {
-        try {
-            let should_send_recovery = false;
-
-            let lastRegister = (
-                await getDoc(
-                    doc(
-                        firestoreConnector,
-                        process.env.ORG_ID as string,
-                        'client',
-                        'jobs',
-                        observer_id
-                    ).withConverter(
-                        firebaseGenericConverter<{
-                            incident_counter?: number;
-                        }>()
-                    )
-                )
-            ).data();
-
-            if (
-                +(lastRegister?.incident_counter?.toString() ?? 0) > 0 &&
-                last_result_ok
-            ) {
-                should_send_recovery = true;
-            }
-
-            setDoc(
-                doc(
-                    firestoreConnector,
-                    process.env.ORG_ID as string,
-                    'client',
-                    'jobs',
-                    observer_id
-                ),
-                {
-                    observer_id,
-                    last_execution_date,
-                    last_execution_MS,
-                    last_result_ok,
-                    next_execution_date,
-                    incident_counter: last_result_ok ? 0 : increment(1),
-                },
-                { merge: true }
-            ).catch((error) => {
-                logger.error('Error updating document: ', error);
-            });
-
-            return {
-                should_send_recovery,
-            };
-        } catch (error) {
-            throw error;
-        }
-    },
     listenForSqlTest: async () => {
         onSnapshot(
             doc(
