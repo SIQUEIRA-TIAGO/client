@@ -5,9 +5,6 @@ import { logger } from "@/logger";
 import { CronJob } from "cron";
 import { IObserverJobContext } from "../interfaces/observer-job-context";
 
-/**
- * Função para parar os jobs de observadores em execução
- */
 const stopRunningObserverJobs = () => {
     if (globals.observer_cron_jobs?.length > 0) {
         logger.info('Stopping observer jobs'.bgBlue.black);
@@ -18,9 +15,6 @@ const stopRunningObserverJobs = () => {
     }
 };
 
-/**
- * Função para iniciar os novos jobs de observadores
- */
 const startNewObserverJobs = (newJobs: CronJob<null, IObserverJobContext>[]) => {
     logger.info('Starting observer jobs'.bgBlue.black);
     globals.observer_cron_jobs = newJobs;

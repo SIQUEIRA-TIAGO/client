@@ -8,9 +8,6 @@ import { Observer } from '@/entities/observer';
 import { logger } from '@/logger';
 import { CronJob, } from 'cron';
 
-/**
- * Função que cria o cron job para cada observador
- */
 const createCronJobForObserver = async (
     observer: Observer,
     sql: { observerId: string; sql: string; },

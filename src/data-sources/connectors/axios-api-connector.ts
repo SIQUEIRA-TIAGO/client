@@ -19,7 +19,6 @@ export const axiosApiConnector = (() => {
         return config;
     });
 
-    //if response is ok
     connector.interceptors.response.use(
         (response) => {
             globals.last_api_req_time = Date.now().valueOf();

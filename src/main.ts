@@ -9,9 +9,6 @@ import { downloadObservers } from './common/helpers/download-observers';
 import { logger } from './logger';
 import { Observer } from './entities/observer';
 
-/**
- * Função para limpar dados antigos
- */
 const cleanUpOldObservers = async () => {
     logger.info('Cleaning up old observers data'.bgBlue.black);
 
@@ -21,9 +18,6 @@ const cleanUpOldObservers = async () => {
     });
 };
 
-/**
- * Função para salvar observadores no sistema de arquivos
- */
 const saveObservers = async (observers: Observer[]) => {
     const observersFile = JSON.stringify(observers);
 
@@ -33,9 +27,6 @@ const saveObservers = async (observers: Observer[]) => {
     });
 };
 
-/**
- * Função para processar cada observador e baixar os SQLs relacionados
- */
 const processObservers = async (observers: Observer[]) => {
     await Promise.all(
         observers.map(async (observer) => {
