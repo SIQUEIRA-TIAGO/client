@@ -11,6 +11,7 @@ import { remoteFileSystemDataSourceImpl } from '@/data-sources/implementations/r
 import { Blob } from 'buffer';
 import { ocurrenceDataSourceImpl } from '@/data-sources/implementations/occurence-data-source';
 import { logger } from '@/logger';
+import { parseSQL } from './parseSql';
 
 export const runObserver = async (
     observer: Observer,
@@ -44,7 +45,8 @@ export const runObserver = async (
     let rowRestrictionsTriggered = false;
     let executionMS = 0;
 
-    const queryResult = await databaseConnection.query(sql?.sql, {
+    const finalSql = parseSQL(sql.sql, observer.conditions ?? {})
+    const queryResult = await databaseConnection.query(finalSql, {
         type: QueryTypes.SELECT,
         benchmark: true,
         logging: (_, timming) => {
@@ -53,7 +55,7 @@ export const runObserver = async (
     });
 
     if (!queryResult?.length) {
-        logger.error(`No results found for query: ${sql?.sql}`);
+        logger.error(`No results found for query: ${finalSql}`);
         return {
             executionMS,
             fieldRestrictionsTriggered: false,
