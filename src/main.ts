@@ -77,7 +77,7 @@ export const init = async () => {
 //Em prod mudar pra 0 */3 * * *  |||| a cada 3 horas
 export const mainCron = () => {
     return CronJob.from({
-        cronTime: '*/1 * * * *',
+        cronTime: '15 */3 * * *',
         onTick: async () => {
             try {
                 await downloadObservers();
