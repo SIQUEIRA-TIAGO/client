@@ -22,6 +22,7 @@
     "colorts": "^0.1.63",
     "cors": "^2.8.5",
     "cron": "^3.1.7",
+    "cron-parser": "^5.4.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "firebase": "^12.5.0",

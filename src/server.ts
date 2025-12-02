@@ -1,11 +1,10 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import { mainCron } from './main';
+import { refreshObserversCron, tickCron } from './main';
 import { globals } from '@/common/states/globals';
 import { IErrors } from './common/interfaces/errors';
 import firebaseConnector from './data-sources/connectors/auth/firebase/firebase-connector';
 import { firestoreDataSourceImpl } from './data-sources/implementations/firestore-data-source';
-//import "./auto-update"
 import { logger } from './logger';
 
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
@@ -36,9 +35,14 @@ const initializeServer = async (): Promise<void> => {
         configureAccessToken();
         await initializeDataSources();
 
-        const cronJob = mainCron();
-        if (cronJob) {
-            cronJob.start();
+        const refreshObserversCronJob = refreshObserversCron();
+        if (refreshObserversCronJob) {
+            refreshObserversCronJob.start();
+        }
+
+        const tickCronJob = tickCron()
+        if (tickCronJob) {
+            tickCronJob.start();
         }
     } catch (error: any) {
         if (error?.origin === '.env') {

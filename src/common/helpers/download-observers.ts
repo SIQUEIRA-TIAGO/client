@@ -1,42 +1,62 @@
-import { init } from "@/main";
-import { globals } from "../states/globals";
-import { IErrors } from "../interfaces/errors";
 import { logger } from "@/logger";
-import { CronJob } from "cron";
-import { IObserverJobContext } from "../interfaces/observer-job-context";
+import { observerDataSourceImpl } from '@/data-sources/implementations/observer-data-source';
+import { fileSystemDataSourceImpl } from '@/data-sources/implementations/file-system-data-source';
+import { remoteFileSystemDataSourceImpl } from '../../data-sources/implementations/remote-file-system-data-source';
+import { Observer } from '../../entities/observer';
 
-const stopRunningObserverJobs = () => {
-    if (globals.observer_cron_jobs?.length > 0) {
-        logger.info('Stopping observer jobs'.bgBlue.black);
-        globals.observer_cron_jobs.forEach((job) => job.stop());
-        logger.info('Observer jobs stopped'.bgGreen.black);
-    } else {
-        logger.info('No observer jobs running'.bgBlue.black);
-    }
+const cleanUpOldObservers = async () => {
+    logger.info('Cleaning up old observers data'.bgBlue.black);
+
+    await fileSystemDataSourceImpl.saveJson({
+        what: '[]',
+        where: '../remoteData/observers.json',
+    });
 };
 
-const startNewObserverJobs = (newJobs: CronJob<null, IObserverJobContext>[]) => {
-    logger.info('Starting observer jobs'.bgBlue.black);
-    globals.observer_cron_jobs = newJobs;
-    globals.observer_cron_jobs.forEach((job) => job.start());
-    logger.info('Observer jobs started successfully'.bgGreen.black);
+const saveObservers = async (observers: Observer[]) => {
+    const observersFile = JSON.stringify(observers);
+
+    await fileSystemDataSourceImpl.saveJson({
+        where: '../remoteData/observers.json',
+        what: observersFile,
+    });
 };
 
-export const downloadObservers = async () => {
+const processObservers = async (observers: Observer[]) => {
+    await Promise.all(
+        observers.map(async (observer) => {
+            if (observer.sql_url && observer.sql_url.includes(process.env.ORG_ID)) {
+                try {
+                    const sql = await remoteFileSystemDataSourceImpl
+                        .downloadFile(observer.sql_url);
+                    const sqlFile = JSON.stringify({
+                        observerId: observer.observer_id,
+                        sql,
+                    })
+                    await fileSystemDataSourceImpl.saveJson({
+                        where: `../remoteData/sqls/${observer.observer_id}.json`,
+                        what: sqlFile,
+                    });
+                } catch (error) {
+                    logger.error(`Error downloading SQL for observer ${observer.observer_id}: ${error}`);
+                }
+            }
+        })
+    );
+};
+
+export const refreshObservers = async () => {
     try {
-        stopRunningObserverJobs()
+        await cleanUpOldObservers()
 
-        logger.info('Checking for new data on remote server'.bgBlue.black);
-        const newJobs = await init();
-        logger.info('Sync finished successfully'.bgGreen.black);
+        const observerDataSource = observerDataSourceImpl({
+            fileSystemDataSource: fileSystemDataSourceImpl,
+        })
+        const observers = await observerDataSource.getRemoteObservers();
 
-        startNewObserverJobs(newJobs)
-    } catch (error: object | any) {
-        if (!('origin' in error)) return logger.info(error);
-
-        const internalError = error as IErrors;
-        if (internalError.origin === 'api') {
-            logger.error('Error on api request'.bgRed.black);
-        }
+        await saveObservers(observers);
+        await processObservers(observers);
+    } catch (error) {
+        throw error;
     }
-}
+};

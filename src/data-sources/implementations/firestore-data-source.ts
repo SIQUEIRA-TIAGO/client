@@ -14,7 +14,7 @@ import { runObserver } from '@/common/helpers/run-observer';
 import { sqlDataSourceImpl } from './sql-data-source';
 import { fileSystemDataSourceImpl } from './file-system-data-source';
 import { observerDataSourceImpl } from './observer-data-source';
-import { downloadObservers } from '@/common/helpers/download-observers';
+import { refreshObservers } from '@/common/helpers/download-observers';
 import { logger } from '@/logger';
 
 export const firestoreDataSourceImpl: IFirestoreDataSource = {
@@ -174,7 +174,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                     if (!!!data?.should_restart) return;
                     if (typeof data?.should_restart !== 'boolean') return;
                     if (data.should_restart) {
-                        await downloadObservers();
+                        await refreshObservers();
                         await updateDoc(
                             doc(
                                 firestoreConnector,
