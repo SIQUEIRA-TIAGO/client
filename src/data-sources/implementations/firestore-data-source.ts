@@ -1,10 +1,7 @@
 import {
     updateDoc,
     doc,
-    setDoc,
     onSnapshot,
-    increment,
-    getDoc,
 } from 'firebase/firestore';
 import { firestoreConnector } from '../connectors/auth/firebase/firebase-connector';
 import { firebaseGenericConverter } from '@/common/helpers/firebase-generic-converter';

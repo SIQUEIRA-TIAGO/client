@@ -14,7 +14,7 @@ export const sqlDataSourceImpl: ISqlDataSource = ({ fileSystemDataSource }) => {
                 }>({
                     where: path.join(
                         process.cwd(),
-                        `../remoteData/sqls/${observerId}.json`
+                        `./remoteData/sqls/${observerId}.json`
                     ),
                 });
                 return sql;

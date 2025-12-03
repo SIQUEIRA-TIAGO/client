@@ -11,7 +11,6 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 //TODO:
 // - endpoints informing if server is working properly, next update time, etc
 // - verify if current queries are ocuppying the entire cron time-window and if it's possible to run more queries
-// - auto update
 
 const configureAccessToken = (): void => {
     if (!process.env.ACCESS_TOKEN) {

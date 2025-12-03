@@ -9,7 +9,7 @@ const cleanUpOldObservers = async () => {
 
     await fileSystemDataSourceImpl.saveJson({
         what: '[]',
-        where: '../remoteData/observers.json',
+        where: './remoteData/observers.json',
     });
 };
 
@@ -17,7 +17,7 @@ const saveObservers = async (observers: Observer[]) => {
     const observersFile = JSON.stringify(observers);
 
     await fileSystemDataSourceImpl.saveJson({
-        where: '../remoteData/observers.json',
+        where: './remoteData/observers.json',
         what: observersFile,
     });
 };
@@ -34,7 +34,7 @@ const processObservers = async (observers: Observer[]) => {
                         sql,
                     })
                     await fileSystemDataSourceImpl.saveJson({
-                        where: `../remoteData/sqls/${observer.observer_id}.json`,
+                        where: `./remoteData/sqls/${observer.observer_id}.json`,
                         what: sqlFile,
                     });
                 } catch (error) {

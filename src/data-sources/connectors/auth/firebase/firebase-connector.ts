@@ -64,5 +64,4 @@ const authenticateThroughApi = async () => {
 export default authenticateThroughApi;
 
 export const firestoreConnector = getFirestore(app);
-
 export const firebaseStorageConnector = getStorage(app);

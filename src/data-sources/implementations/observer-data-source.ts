@@ -32,7 +32,7 @@ export const observerDataSourceImpl: IObserverDataSource = ({
                     >({
                         where: path.join(
                             process.cwd(),
-                            '../remoteData/observers.json'
+                            './remoteData/observers.json'
                         ),
                     });
                     if (!observers?.length) {

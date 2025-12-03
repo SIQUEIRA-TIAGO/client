@@ -1,7 +1,6 @@
 import { IErrors } from '@/common/interfaces/errors';
 import { axiosApiConnector } from '../connectors/axios-api-connector';
 import { IOccurenceDataSource } from '../interfaces/ocurrence-data-source';
-import { globals } from '@/common/states/globals';
 import { logger } from '@/logger';
 
 export const ocurrenceDataSourceImpl: IOccurenceDataSource = () => ({
