@@ -1,14 +1,10 @@
 import { databaseConnection } from '@/data-sources/connectors/database-connector';
-import { firestoreDataSourceImpl } from '@/data-sources/implementations/firestore-data-source';
 import { Observer } from '@/entities/observer';
 import { checkFieldRestrictions } from '@/helpers/checkFieldRestrictions';
 import { checkRowRestrictions } from '@/helpers/checkRowRestrictions';
-import { sendAt } from 'cron';
 import { QueryTypes } from 'sequelize';
 import { generateUUIDv7 } from './generate-uuidv7';
 import { OcurrenceData } from '@/entities/ocurrence-data';
-import { remoteFileSystemDataSourceImpl } from '@/data-sources/implementations/remote-file-system-data-source';
-import { Blob } from 'buffer';
 import { ocurrenceDataSourceImpl } from '@/data-sources/implementations/occurence-data-source';
 import { logger } from '@/logger';
 import { parseSQL } from './parseSql';
@@ -115,17 +111,11 @@ export const runObserver = async (
         logger.info(`Observer ${observer?.sql_url} triggered`.yellow);
         const ocurrenceId = generateUUIDv7();
 
-        await remoteFileSystemDataSourceImpl.uploadFile(
-            new Blob([JSON.stringify(ocurrenceJson)], {
-                type: 'application/json',
-            }),
-            `/${process.env.ORG_ID}/ocurrences/${ocurrenceId}.json`
-        ),
             await ocurrenceDataSourceImpl().postOcurrence({
                 client_id: process.env.ORG_ID as string,
                 observer_id: observer.observer_id,
                 ocurrence_id: ocurrenceId,
-                ocurrence_url: `ocurrences/${ocurrenceId}.json`,
+                ocurrence_url: ``,
                 is_recovery: is_recovery,
                 ocurrenceJson,
                 org_id: process.env.ORG_ID as string,
