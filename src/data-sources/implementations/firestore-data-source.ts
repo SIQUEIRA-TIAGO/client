@@ -1,3 +1,4 @@
+import '../../config/env'; // Garante que .env está carregado
 import {
     updateDoc,
     doc,
@@ -14,12 +15,15 @@ import { observerDataSourceImpl } from './observer-data-source';
 import { refreshObservers } from '@/common/helpers/download-observers';
 import { logger } from '@/logger';
 
+// Cache da variável de ambiente para otimização
+const ORG_ID = process.env.ORG_ID as string;
+
 export const firestoreDataSourceImpl: IFirestoreDataSource = {
     listenForSqlTest: async () => {
         onSnapshot(
             doc(
                 firestoreConnector,
-                process.env.ORG_ID as string,
+                ORG_ID,
                 'sql-test'
             ).withConverter(
                 firebaseGenericConverter<{
@@ -44,7 +48,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                     await updateDoc(
                         doc(
                             firestoreConnector,
-                            process.env.ORG_ID as string,
+                            ORG_ID,
                             'sql-test'
                         ),
                         {
@@ -72,7 +76,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
             await updateDoc(
                 doc(
                     firestoreConnector,
-                    process.env.ORG_ID as string,
+                    ORG_ID,
                     'forced-execution'
                 ),
                 {
@@ -85,7 +89,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
         onSnapshot(
             doc(
                 firestoreConnector,
-                process.env.ORG_ID as string,
+                ORG_ID,
                 'forced-execution'
             ).withConverter(
                 firebaseGenericConverter<{
@@ -155,7 +159,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
         onSnapshot(
             doc(
                 firestoreConnector,
-                process.env.ORG_ID as string,
+                ORG_ID,
                 'forced-download'
             ).withConverter(
                 firebaseGenericConverter<{
@@ -175,7 +179,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         await updateDoc(
                             doc(
                                 firestoreConnector,
-                                process.env.ORG_ID as string,
+                                ORG_ID,
                                 'forced-download'
                             ),
                             {

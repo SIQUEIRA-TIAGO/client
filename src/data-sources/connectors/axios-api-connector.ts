@@ -1,14 +1,13 @@
+import '../../../config/env'; // Garante que .env está carregado
 import axios from 'axios';
-import dotenv from 'dotenv';
-import path from 'path';
-
 import { globals } from '@/common/states/globals';
 
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+// Cache da variável de ambiente para otimização
+const CENTRAL_API_BASE_URL = process.env.CENTRAL_API_BASE_URL;
 
 export const axiosApiConnector = (() => {
     let connector = axios.create({
-        baseURL: process.env.CENTRAL_API_BASE_URL,
+        baseURL: CENTRAL_API_BASE_URL,
         headers: {
             'Content-Type': 'application/json',
         },

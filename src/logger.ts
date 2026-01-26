@@ -1,16 +1,22 @@
+import "./config/env"; // Carrega .env primeiro
 import { createLogger, format, transports } from "winston";
 import Transport from "winston-transport";
 import axios from "axios";
+
+// Cache das variáveis de ambiente para otimização
+const CENTRAL_API_BASE_URL = process.env.CENTRAL_API_BASE_URL;
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN;
+
 export class NotifyServerTransport extends Transport {
   async log(info: any, callback: () => void) {
     setImmediate(() => this.emit("logged", info));
     try {
       await axios.get(
-        `${process.env.CENTRAL_API_BASE_URL}client/crash`,
+        `${CENTRAL_API_BASE_URL}client/crash`,
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.ACCESS_TOKEN}` || "",
+            Authorization: `Bearer ${ACCESS_TOKEN}` || "",
           },
         }
       );
