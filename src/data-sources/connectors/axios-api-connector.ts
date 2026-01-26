@@ -1,4 +1,4 @@
-import '../../../config/env'; // Garante que .env está carregado
+import '@/config/env'; // Garante que .env está carregado
 import axios from 'axios';
 import { globals } from '@/common/states/globals';
 

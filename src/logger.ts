@@ -1,4 +1,4 @@
-import "./config/env"; // Carrega .env primeiro
+import "@/config/env"; // Carrega .env primeiro
 import { createLogger, format, transports } from "winston";
 import Transport from "winston-transport";
 import axios from "axios";

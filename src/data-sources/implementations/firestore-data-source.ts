@@ -1,4 +1,4 @@
-import '../../config/env'; // Garante que .env está carregado
+import '@/config/env'; // Garante que .env está carregado
 import {
     updateDoc,
     doc,

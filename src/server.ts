@@ -1,4 +1,4 @@
-import './config/env'; // Carrega .env primeiro
+import '@/config/env'; // Carrega .env primeiro
 import { refreshObserversCron, tickCron } from './main';
 import { globals } from '@/common/states/globals';
 import { IErrors } from './common/interfaces/errors';
