@@ -29,11 +29,22 @@ if (DB_DIALECT === 'oracle') {
     
     try {
         logger.info('Initializing Oracle Client from: ' + ` ${libDir}`);
+        logger.info('Node.js architecture: ' + process.arch);
+        logger.info('Platform: ' + process.platform);
+        
+        const currentPath = process.env.PATH || '';
+        if (!currentPath.includes(libDir)) {
+            process.env.PATH = `${libDir};${currentPath}`;
+            logger.info('Oracle Client directory added to PATH');
+        }
 
         oracledb.initOracleClient({ libDir });
         logger.info('Oracle Client initialized successfully');
     } catch (error) {
         logger.error('Failed to initialize Oracle Client'.bgRed, error);
+        logger.error('Error details:', JSON.stringify(error, null, 2));
+        logger.error('Make sure you have Visual C++ Redistributable 2015-2022 (x64) installed');
+        logger.error('Download from: https://aka.ms/vs/17/release/vc_redist.x64.exe');
         throw error;
     }
 }
