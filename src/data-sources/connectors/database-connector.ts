@@ -17,7 +17,7 @@ const DB_SCHEMA = process.env.DB_SCHEMA;
 
 // Caminho para Oracle Instant Client em /resources (mesmo nível do PortableGit)
 // Funciona tanto em dev (src) quanto em produção (dist)
-const libDir = path.resolve(process.cwd(), "resources/instantclient_19_28");
+const libDir = path.resolve(process.cwd(), "resources/instantclient_21_20");
 
 // Inicializa Oracle Client apenas se o dialeto for Oracle
 if (DB_DIALECT === 'oracle') {
