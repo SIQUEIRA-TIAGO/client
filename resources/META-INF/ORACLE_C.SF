@@ -1,90 +1,108 @@
 Signature-Version: 1.0
 Created-By: 11.0.29 (Oracle Corporation)
-SHA-256-Digest-Manifest: kcDwAIzxl+6Bwk/kgZmG+N2MHHNbJ7SqIzpSk4u5pFk=
+SHA-256-Digest-Manifest: uju68dGhmTkicHKlnc9QArxwzPGbPNEi0fZEaFpg/os=
 SHA-256-Digest-Manifest-Main-Attributes: h2UOpNCiZTy+A6V514rIiDet406mr3j
  mIgQ9BYEVwDQ=
 
-Name: instantclient_21_20/BASIC_LITE_LICENSE
-SHA-256-Digest: YashJA9WOeTAyGycXsbkEwLZFMqCDCKC22ij783mw90=
+Name: instantclient_19_29/ucp.jar
+SHA-256-Digest: uFWADKwIxDGbej3JZEi0GWwAzJ7gEb6Ic9U3JGRgnDM=
 
-Name: instantclient_21_20/ociw32.sym
-SHA-256-Digest: iF4Fa6zImKrZqc/I0kzs0f+84b0LYhNNHqrpyq60jqA=
+Name: instantclient_19_29/BASIC_LITE_LICENSE
+SHA-256-Digest: j1JLLP1SprEKw9y7kTvL83S7alw7OXT+CKLEF0Eb/cU=
 
-Name: instantclient_21_20/adrci.sym
-SHA-256-Digest: EfTFBEUsh5Z4IxbpGexAyhMJdVJj9T+glu91RuxFsKs=
+Name: instantclient_19_29/genezi.sym
+SHA-256-Digest: n1JCK7YQ4zR9hC772+hntTj9BAIGF7FckYKO06Bjocg=
 
-Name: instantclient_21_20/network/admin/README
-SHA-256-Digest: qYBPUV+xrkm57KTM9gU7h1fGMdit4h2ysksjIkPkrfc=
+Name: instantclient_19_29/oci.dll
+SHA-256-Digest: 8fS6aAqnkDEapM81nsTPsI5bi9fEbvUv5gxdBtNIp+4=
 
-Name: instantclient_21_20/oci.dll
-SHA-256-Digest: gS+CnCgYlfX1aMMdTvkxaibuSGSIdg1Hs7cvQq+yT3E=
+Name: instantclient_19_29/adrci.exe
+SHA-256-Digest: vi2mCH2lMysHH06ayIabne0sL+MBZkcetmxp47mphDU=
 
-Name: instantclient_21_20/orannzsbb.dll
-SHA-256-Digest: TfB29npbdmbjyXEpkvR77Tz/YvY6e/hufXb48TLKAnY=
+Name: instantclient_19_29/genezi.exe
+SHA-256-Digest: 07do2+BBpkuI5RaMOKPLWZCXOg0Gjph0urGC3bCb95Y=
 
-Name: instantclient_21_20/uidrvci.exe
-SHA-256-Digest: urFlNsy/p5yu7PtDNaIxDsa+QERO4Hxte1WYHKQDtxQ=
+Name: instantclient_19_29/uidrvci.exe
+SHA-256-Digest: 4FZ6OE8XtV4+Roxbkvr2jKwdSGXXlWhLhjNt+Ec7vcY=
 
-Name: instantclient_21_20/oraocci21.dll
-SHA-256-Digest: 5ao2/bKEaFL46ZG05rfwdAgNHm2daXtb8cPqLCNqoKY=
+Name: instantclient_19_29/ocijdbc19.dll
+SHA-256-Digest: cKKl38n7UFue+E02jkQV1yUCtEeOar+Z1aL43KKOlwA=
 
-Name: instantclient_21_20/ocijdbc21.dll
-SHA-256-Digest: Lk5zJs8hT+tbjOAZE2JDrv9uqlzC0VexcTUTW25gZ2U=
+Name: instantclient_19_29/orannzsbb19.dll
+SHA-256-Digest: ftehaRWsssgFqhBt+VIeXnn1wa+AFL8X7iZ24howDhk=
 
-Name: instantclient_21_20/oraocci21d.dll
-SHA-256-Digest: nVMjLEhBSz7PCcC28c9lhpxdL6SsUJ4S1/tmqPSLlZY=
+Name: instantclient_19_29/oraocci19.sym
+SHA-256-Digest: eCsKnCim0ePPAB3KwTG/JOKZfEJHIEtCJPuusREx4EU=
 
-Name: instantclient_21_20/orasql.sym
-SHA-256-Digest: id2/iuAtfq/g3lz6q5+Vczkqh/7OKbomoHUCZR7FDgY=
+Name: instantclient_19_29/ccme_asym.dll
+SHA-256-Digest: Z65L74H5zy4E/uEDzp4bI0r8aYfzy+Mf3bdEDD5DnKM=
 
-Name: instantclient_21_20/adrci.exe
-SHA-256-Digest: Tf9RYMDFH891v/J/HAoHZ+I48JOKo4Z7fveDbp8yKRI=
+Name: instantclient_19_29/adrci.sym
+SHA-256-Digest: CUxC89whz8IVTcnsbfHQR1BM6Lfgq8hLJnUVOMrdRjs=
 
-Name: instantclient_21_20/oraociicus.dll
-SHA-256-Digest: Mzd7aB6hS1OMEjUrz+g1bM2V+2HLUXqhd55n1x3hJ7w=
+Name: instantclient_19_29/ociw32.dll
+SHA-256-Digest: Nd+lU7D4j83GKcLMtybeCz/OlIhApWamQpE1kBCjnPM=
 
-Name: instantclient_21_20/uidrvci.sym
-SHA-256-Digest: HWyr0KbaA9xBG0G7vFRm0MNFWf7qvI12lQl/Y6U/PEk=
+Name: instantclient_19_29/oraociicus19.sym
+SHA-256-Digest: mFTu8LJs+4VFOU2NTOerPQ9BeUhm2Z+hzwGC9y21Ofc=
 
-Name: instantclient_21_20/BASIC_LITE_README
-SHA-256-Digest: KlxY5BeCAbdj9IqwM58ICogTxyzdRIeirJJOUBw/KPU=
+Name: instantclient_19_29/uidrvci.sym
+SHA-256-Digest: R79YmviRYRlaN9UbVgH2VtcXMqMVrWvf6RuvKjxm5Tc=
 
-Name: instantclient_21_20/ucp.jar
-SHA-256-Digest: gE6KrKfy5e6gPptSgMrGm77eEREBlLXCEpQ1rk38b5o=
+Name: instantclient_19_29/BASIC_LITE_README
+SHA-256-Digest: Q05fIPstZHrBGJwNnpELEKAe4TLdBHKYc+a5VtsuYcg=
 
-Name: instantclient_21_20/ociw32.dll
-SHA-256-Digest: UDutQQIMgEZOlZ6O9fjxZ/VQekSBS+M9xVQ+JxyIQ+Y=
+Name: instantclient_19_29/ccme_ecc.dll
+SHA-256-Digest: mIeNsV6pngFHtKlXkfKSBzs+5LZ01AyS9IZ4KgqvrfM=
 
-Name: instantclient_21_20/oraocci21d.sym
-SHA-256-Digest: WIJpixRu9c5o3QCRQIa3CZPs7t1AcntiMhrz8692P5c=
+Name: instantclient_19_29/orasql19.sym
+SHA-256-Digest: w3bGKHgPnbkivm5ZBrUIQsWzGRhNsxXLTu95HMfsTrw=
 
-Name: instantclient_21_20/oci.sym
-SHA-256-Digest: LRMCr03ijUyNILtyNTchmMytrVMWjrcZdTod2GjwC18=
+Name: instantclient_19_29/oraons.dll
+SHA-256-Digest: euhatXrqqEOhTOkIRdmFyrs5wLYiZJT87cp60pzYLMg=
 
-Name: instantclient_21_20/oraocci21.sym
-SHA-256-Digest: wovpPO7rTxwM4cAQWYCvuRDhwoASPY1V3LU4axOFf2E=
+Name: instantclient_19_29/oraocci19d.dll
+SHA-256-Digest: dGhqza30BRSSivr4xRxF/zOCMDWZ2RAbM1pPmxgIhUo=
 
-Name: instantclient_21_20/orannzsbb.sym
-SHA-256-Digest: vocR9ojQiUMa6glvM++WuLs6wAtuTYRsv+u8Cxk4YaA=
+Name: instantclient_19_29/ccme_base.dll
+SHA-256-Digest: CQ+WLRiBNvYFJXkNpwJl2GIpIZWvy0TT1iMIbDqWK8o=
 
-Name: instantclient_21_20/ojdbc8.jar
-SHA-256-Digest: JwYxdQj2Eh84b1FSL8r/x2MWPpnBmpgSDcEJPO1mrgU=
+Name: instantclient_19_29/ojdbc8.jar
+SHA-256-Digest: PHsxPV6sllLhRBgDurmwT/ws3a+7tVes2uqcMtWeg2c=
 
-Name: instantclient_21_20/genezi.exe
-SHA-256-Digest: Z+jUoKxFYk0XWTPXj9IBtAUe5e08Trf0XMY6LHXk14A=
+Name: instantclient_19_29/oraocci19.dll
+SHA-256-Digest: yQTf3P3Du9VaD/dY7dsL8MczoO9I3wHH1fyQ+QHnUhA=
 
-Name: instantclient_21_20/orasql.dll
-SHA-256-Digest: I+qc54Li8IM3kuzUrZ82hqa26BHgDeid6Q5Rvya4Rao=
+Name: instantclient_19_29/oci.sym
+SHA-256-Digest: xS3snAmS0dhdqPidEsJVAg8I/5OD+ZMc2uDjeZjIP3o=
 
-Name: instantclient_21_20/ocijdbc21.sym
-SHA-256-Digest: MRsSPK09jvdMQqo/uyCJwwk1QkgGfvF/jPHBQYrcL34=
+Name: instantclient_19_29/ocijdbc19.sym
+SHA-256-Digest: fKao3PgYNtdyJv+9jDW5yAKy8GphvNYpowBLZgusM0o=
 
-Name: instantclient_21_20/oraociicus.sym
-SHA-256-Digest: cA289LOY+rubGdQC/UYExrSGp7mbAUsnJOv/JipEGp0=
+Name: instantclient_19_29/orannzsbb19.sym
+SHA-256-Digest: UF5lJDHSG8qU8gl7v0Nk3G0dTXC+HNsWRAA4s5rS15g=
 
-Name: instantclient_21_20/genezi.sym
-SHA-256-Digest: loUhZmft/4wFFFAreqqptVXHxC+7HiXALiOIV1MDFi4=
+Name: instantclient_19_29/xstreams.jar
+SHA-256-Digest: uqkH2QIMycn71W59t41VaC2TYQ+bVR/J1tKoc6EVdos=
 
-Name: instantclient_21_20/xstreams.jar
-SHA-256-Digest: Oh0RLGpFq5rMzSzVUouA8Tt0rXFTVYf25ASO/IYQY1A=
+Name: instantclient_19_29/ccme_base_non_fips.dll
+SHA-256-Digest: HTdQCSh7bJ5zR+vbGUS2AA1SBIwaM/JvUHXuaTVb81M=
+
+Name: instantclient_19_29/cryptocme.dll
+SHA-256-Digest: myDD2yzPIVaGUakgMC7ItiKHIdXjoTV6U8X+v+6vnto=
+
+Name: instantclient_19_29/ccme_ecc_non_fips.dll
+SHA-256-Digest: UjbC1ITfX5OBTeZpr4rqiuLrME4c8pBNOpBczTIg0Gg=
+
+Name: instantclient_19_29/ociw32.sym
+SHA-256-Digest: qZpcC5iT15sKqAwS40b04g4q8r/010f2g6vUbFhcl0M=
+
+Name: instantclient_19_29/oraocci19d.sym
+SHA-256-Digest: WryAnzI09nRMqocw2qDnxFzizdyByiR40d5YGcZtvro=
+
+Name: instantclient_19_29/orasql19.dll
+SHA-256-Digest: CeHZeXy/aYxTxaaU8NiuCtkmy75IR3Kxiov/OBeUQdg=
+
+Name: instantclient_19_29/oraociicus19.dll
+SHA-256-Digest: kcoEwYZhv084Ymi9lfv8f6dPlv12lERGgW/eaiTlPpQ=
 
