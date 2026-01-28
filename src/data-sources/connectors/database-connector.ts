@@ -5,11 +5,7 @@ import { existsSync } from 'fs';
 import path from 'path';
 import { logger } from '@/logger';
 
-// Configuração CRÍTICA do PATH para Oracle Client
-// DEVE ser configurado ANTES de qualquer import do oracledb
-// Windows precisa ter as DLLs no PATH para carregar dependências
-// Usando IC 19 para melhor compatibilidade com Windows Server 2012 R2
-const libDir = path.resolve(process.cwd(), "resources/instantclient_19_29");
+const libDir = path.resolve(process.cwd(), "resources/instantclient_18_5");
 const DB_DIALECT_PRE = process.env.DB_DIALECT;
 
 if (DB_DIALECT_PRE === 'oracle' && existsSync(libDir)) {
@@ -59,14 +55,6 @@ if (DB_DIALECT === 'oracle') {
     } catch (error) {
         logger.error('Failed to initialize Oracle Client'.bgRed, error);
         logger.error('Error details:', JSON.stringify(error, null, 2));
-        logger.error('\n=== Troubleshooting Steps ===');
-        logger.error('1. Check if Visual C++ Runtime DLLs exist in instantclient folder:');
-        logger.error('   - msvcp140.dll');
-        logger.error('   - vcruntime140.dll');
-        logger.error('   - vcruntime140_1.dll');
-        logger.error('2. Run: .\\copy-vcruntime-dlls.ps1 to copy missing DLLs');
-        logger.error('3. Run: .\\diagnose-oracle.ps1 for detailed diagnostics');
-        logger.error('4. Verify Node.js and Oracle Client match (both 64-bit or both 32-bit)');
         throw error;
     }
 }
