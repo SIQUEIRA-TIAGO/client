@@ -3,6 +3,8 @@ import {
     updateDoc,
     doc,
     onSnapshot,
+    DocumentReference,
+    DocumentSnapshot,
 } from 'firebase/firestore';
 import { firestoreConnector } from '../connectors/auth/firebase/firebase-connector';
 import { firebaseGenericConverter } from '@/common/helpers/firebase-generic-converter';
@@ -18,9 +20,28 @@ import { logger } from '@/logger';
 // Cache da variável de ambiente para otimização
 const ORG_ID = process.env.ORG_ID as string;
 
+const RESUBSCRIBE_DELAY_MS = 60_000;
+
+// Quando um onSnapshot recebe erro, o Firestore encerra o listener e não
+// tenta de novo: sem isso, execução/download forçados param em silêncio
+const listenWithRetry = <T>(
+    name: string,
+    ref: DocumentReference<T>,
+    handler: (snapshot: DocumentSnapshot<T>) => Promise<void>
+): void => {
+    const subscribe = () => {
+        onSnapshot(ref, handler, (error) => {
+            logger.error(`Firestore listener "${name}" failed, resubscribing in ${RESUBSCRIBE_DELAY_MS / 1000}s: ${error}`);
+            setTimeout(subscribe, RESUBSCRIBE_DELAY_MS);
+        });
+    };
+    subscribe();
+};
+
 export const firestoreDataSourceImpl: IFirestoreDataSource = {
     listenForSqlTest: async () => {
-        onSnapshot(
+        listenWithRetry(
+            'sql-test',
             doc(
                 firestoreConnector,
                 ORG_ID,
@@ -58,7 +79,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         }
                     );
                 } catch (error) {
-                    logger.info(error);
+                    logger.error(`Error handling sql-test request: ${error}`);
                 }
             }
         );
@@ -86,7 +107,8 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                 }
             );
         };
-        onSnapshot(
+        listenWithRetry(
+            'forced-execution',
             doc(
                 firestoreConnector,
                 ORG_ID,
@@ -131,7 +153,6 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                     let {
                         fieldRestrictionsTriggered,
                         rowRestrictionsTriggered,
-                        queryResult
                     } = await runObserver(observer, {
                         observerId: data?.observer_id,
                         sql: sql,
@@ -145,18 +166,21 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         error: false,
                     });
                 } catch (error) {
-                    logger.info(error);
-                    updateStatus({
+                    logger.error(`Error handling forced execution: ${error}`);
+                    await updateStatus({
                         already_ran: true,
                         result_ok: false,
                         error: true,
+                    }).catch((statusError) => {
+                        logger.error(`Error updating forced execution status: ${statusError}`);
                     });
                 }
             }
         );
     },
     listenForForcedDownload: async () => {
-        onSnapshot(
+        listenWithRetry(
+            'forced-download',
             doc(
                 firestoreConnector,
                 ORG_ID,
@@ -188,7 +212,7 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                         );
                     }
                 } catch (error) {
-                    logger.info(error);
+                    logger.error(`Error handling forced download: ${error}`);
                 }
             }
         );

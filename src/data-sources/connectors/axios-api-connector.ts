@@ -4,10 +4,12 @@ import { globals } from '@/common/states/globals';
 
 // Cache da variável de ambiente para otimização
 const CENTRAL_API_BASE_URL = process.env.CENTRAL_API_BASE_URL;
+const API_TIMEOUT_MS = +(process.env.API_TIMEOUT_MS ?? 30_000);
 
 export const axiosApiConnector = (() => {
     let connector = axios.create({
         baseURL: CENTRAL_API_BASE_URL,
+        timeout: API_TIMEOUT_MS,
         headers: {
             'Content-Type': 'application/json',
         },

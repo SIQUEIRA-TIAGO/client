@@ -31,7 +31,7 @@ export const sqlDataSourceImpl: ISqlDataSource = ({ fileSystemDataSource }) => {
                 const sql = await axiosApiConnector.get<string>(url);
                 return sql.data;
             } catch (error) {
-                logger.info(error);
+                logger.error(`Error downloading remote SQL from ${url}: ${error}`);
                 throw {
                     message: `Error reading ${url}`,
                     origin: 'api.axios',

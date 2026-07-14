@@ -28,6 +28,7 @@ const DB_HOST = process.env.DB_HOST as string;
 const DB_PORT = +(process.env.DB_PORT ?? 0) as number;
 const DB_DIALECT = process.env.DB_DIALECT as 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'oracle';
 const DB_SCHEMA = process.env.DB_SCHEMA;
+const DB_POOL_MAX = +(process.env.DB_POOL_MAX ?? 5);
 
 // Inicializa Oracle Client apenas se o dialeto for Oracle
 if (DB_DIALECT === 'oracle') {
@@ -69,6 +70,12 @@ export const databaseConnection = new Sequelize(
         dialect: DB_DIALECT,
         dialectModule: DB_DIALECT === 'oracle' ? oracledb : undefined,
         schema: DB_SCHEMA || undefined,
+        pool: {
+            max: DB_POOL_MAX,
+            min: 0,
+            acquire: 60_000,
+            idle: 10_000,
+        },
     }
 );
 

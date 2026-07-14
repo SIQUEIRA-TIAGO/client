@@ -1,5 +1,5 @@
 import '@/config/env'; // Carrega .env primeiro
-import { refreshObserversCron, tickCron } from './main';
+import { refreshObserversCron, tickCron, resendPendingOcurrencesCron } from './main';
 import { globals } from '@/common/states/globals';
 import { IErrors } from './common/interfaces/errors';
 import firebaseConnector from './data-sources/connectors/auth/firebase/firebase-connector';
@@ -39,6 +39,11 @@ const initializeServer = async (): Promise<void> => {
         const tickCronJob = tickCron()
         if (tickCronJob) {
             tickCronJob.start();
+        }
+
+        const resendPendingCronJob = resendPendingOcurrencesCron();
+        if (resendPendingCronJob) {
+            resendPendingCronJob.start();
         }
     } catch (error: any) {
         if (error?.origin === '.env') {

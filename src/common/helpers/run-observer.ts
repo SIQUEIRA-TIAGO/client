@@ -8,6 +8,10 @@ import { OcurrenceData } from '@/entities/ocurrence-data';
 import { ocurrenceDataSourceImpl } from '@/data-sources/implementations/occurence-data-source';
 import { logger } from '@/logger';
 import { parseSQL } from './parseSql';
+import { withTimeout } from './with-timeout';
+import { savePendingOcurrence } from './pending-ocurrences';
+
+const DB_QUERY_TIMEOUT_MS = +(process.env.DB_QUERY_TIMEOUT_MS ?? 120_000);
 
 export const runObserver = async (
     observer: Observer,
@@ -42,16 +46,20 @@ export const runObserver = async (
     let executionMS = 0;
 
     const finalSql = parseSQL(sql.sql, observer.conditions ?? {})
-    const queryResult = await databaseConnection.query(finalSql, {
-        type: QueryTypes.SELECT,
-        benchmark: true,
-        logging: (_, timming) => {
-            executionMS = timming ?? 0;
-        },
-    });
+    const queryResult = await withTimeout(
+        databaseConnection.query(finalSql, {
+            type: QueryTypes.SELECT,
+            benchmark: true,
+            logging: (_, timming) => {
+                executionMS = timming ?? 0;
+            },
+        }),
+        DB_QUERY_TIMEOUT_MS,
+        `query of observer ${observer.observer_id}`
+    );
 
     if (!queryResult?.length) {
-        logger.error(`No results found for query: ${finalSql}`);
+        logger.info(`Observer ${observer.observer_id}: query returned no rows, nothing to evaluate`);
         return {
             executionMS,
             fieldRestrictionsTriggered: false,
@@ -109,17 +117,25 @@ export const runObserver = async (
 
     const sendOcurrence = async (is_recovery: boolean) => {
         logger.info(`Observer ${observer?.sql_url} triggered`.yellow);
-        const ocurrenceId = generateUUIDv7();
 
-            await ocurrenceDataSourceImpl().postOcurrence({
-                client_id: process.env.ORG_ID as string,
-                observer_id: observer.observer_id,
-                ocurrence_id: ocurrenceId,
-                ocurrence_url: ``,
-                is_recovery: is_recovery,
-                ocurrenceJson,
-                org_id: process.env.ORG_ID as string,
-            });
+        const ocurrence = {
+            client_id: process.env.ORG_ID as string,
+            observer_id: observer.observer_id,
+            ocurrence_id: generateUUIDv7(),
+            ocurrence_url: ``,
+            is_recovery: is_recovery,
+            ocurrenceJson,
+            org_id: process.env.ORG_ID as string,
+        };
+
+        try {
+            await ocurrenceDataSourceImpl().postOcurrence(ocurrence);
+        } catch (error) {
+            // Não perde a ocorrência: entra na fila em disco e o cron de
+            // reenvio tenta de novo até o servidor aceitar
+            logger.error(`Failed to send ocurrence ${ocurrence.ocurrence_id} for observer ${observer.observer_id}, queued for retry: ${error}`);
+            await savePendingOcurrence(ocurrence);
+        }
     }
 
     if (!!fieldRestrictionsTriggered || !!rowRestrictionsTriggered) {
