@@ -63,7 +63,9 @@ export const firestoreDataSourceImpl: IFirestoreDataSource = {
                     let data = snapshot.data();
                     if (!snapshot.exists()) return;
                     if (!data) return;
-                    if (!!data?.result) return;
+                    // Já respondido (inclusive com false): a própria escrita do
+                    // agente dispara este listener e, com false, virava loop infinito
+                    if (data.result !== undefined) return;
                     if (typeof data?.query !== 'string') return;
                     let query = await sqlModels.test({ sql: data.query });
                     await updateDoc(
